@@ -1,0 +1,36 @@
+services:
+
+  olfactis_mongo:
+    image: mongo:latest
+    container_name: olfactis_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    networks:
+      - olfactis_network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: olfactis
+
+  olfactis_compass:
+    image: mongo-express
+    container_name: olfactis_compass
+    ports:
+      - "28081:8081"
+    networks:
+      - olfactis_network
+    environment:
+      ME_CONFIG_MONGODB_SERVER: olfactis_mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: rootpassword
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: rootpassword
+      ME_CONFIG_MONGODB_URL: mongodb://root:rootpassword@olfactis_mongo:27017/
+    depends_on:
+      - olfactis_mongo
+
+networks:
+  olfactis_network:
+      driver: bridge
