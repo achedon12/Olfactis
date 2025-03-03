@@ -13,17 +13,3 @@ const connectDB = async () => {
 }
 
 module.exports = connectDB;
-
-//   cours_mongo:
-//     container_name: cours_mongo
-//     image: mongo:latest
-//     restart: always
-//     environment:
-//       MONGO_INITDB_ROOT_USERNAME: root
-//       MONGO_INITDB_ROOT_PASSWORD: root
-//     ports:
-//       - "17017:27017"
-//     volumes:
-//       - ./mongo/data:/data/db
-//     networks:
-//       - cours_sql
