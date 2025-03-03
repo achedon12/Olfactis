@@ -8,10 +8,8 @@ Le front end de ce projet permet de mettre en avant toutes les données du labor
 
 # Installation
 
-## Installation de l'API
-
 ```bash
-  cd api && docker compose up -d && npm run dev
+  ./start.sh
 ```
 
 ## Prérequis
@@ -28,3 +26,4 @@ Le front end de ce projet permet de mettre en avant toutes les données du labor
 ## Urls
 
 - [Front](http://localhost:5173)
+- [Mailer](http://localhost:)

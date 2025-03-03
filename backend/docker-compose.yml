@@ -31,6 +31,15 @@ services:
     depends_on:
       - olfactis_mongo
 
+  olfactis_mailer:
+      image: mailhog/mailhog
+      container_name: olfactis_mailer
+      ports:
+      - "1030:1025"
+      - "8030:8025"
+      networks:
+      - olfactis_network
+
 networks:
   olfactis_network:
       driver: bridge
