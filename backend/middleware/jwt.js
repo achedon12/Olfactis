@@ -7,3 +7,5 @@ const verifyToken = (req, res, next) => {
         res.status(403).json({message: 'Forbidden'});
     }
 };
+
+module.exports = verifyToken;
