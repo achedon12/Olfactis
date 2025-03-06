@@ -5,6 +5,7 @@ const User = require('../models/User');
 const NUMBER_OF_USERS = 50;
 
 const seedUsers = async () => {
+    await User.deleteMany({});
 
     // adminUser
     const adminUser = new User({
@@ -29,6 +30,8 @@ const seedUsers = async () => {
 
         await user.save();
     }
+
+    console.log('Users seeded');
 }
 
 module.exports = seedUsers;

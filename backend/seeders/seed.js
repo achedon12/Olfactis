@@ -4,6 +4,9 @@ dotenv.config();
 const connectDB = require('../config/db');
 
 const seedUsers = require('./User');
+const seedCategories = require('./Category');
+const seedItems = require('./Item');
+const seedStates = require('./State');
 
 // Connect to the database
 connectDB();
@@ -11,6 +14,9 @@ connectDB();
 const seedDatabase = async () => {
     try {
         await seedUsers();
+        await seedCategories();
+        await seedStates();
+        await seedItems();
         console.log('Database seeded');
     } catch (error) {
         console.error('Error seeding database:', error);
