@@ -34,7 +34,7 @@ const Login = () => {
         <div className={'w-full h-screen flex flex-col items-center justify-center bg-pink-900'}>
             <h1>OLFACTIS</h1>
             <form onSubmit={handleSubmit} className={'bg-white px-4 md:px-8 w-3/4 md:w-1/4'}>
-                <h2 className={'text-center mt-6 mb-8'}>{isRegister ? 'Register' : 'Bienvenue'}</h2>
+                <h2 className={'text-center mt-6 mb-8'}>Bienvenue</h2>
                 {isRegister && (
                     <>
                         <input type="text"
@@ -72,7 +72,7 @@ const Login = () => {
                         {isRegister ? 'Register' : 'Login'}
                     </button>
                     <p>
-                        {isRegister ? 'Vous avez déjà un compte ?' : 'Vous n\'avez pas de compte ?'}
+                        {isRegister ? 'Vous avez déjà un compte ? ' : 'Vous n\'avez pas de compte ? '}
                         <a onClick={() => setIsRegister(!isRegister)} className={'text-pink-400 cursor-pointer'}>
                             {isRegister ? 'Connectez-vous' : 'Inscrivez-vous'}
                         </a>
