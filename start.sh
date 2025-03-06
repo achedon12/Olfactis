@@ -7,7 +7,7 @@ export $(grep -v '^#' .env | xargs)
 
 npm install
 
-docker compose -p olfactis up -d
+docker compose -p olfactis up
 
 echo "Waiting for MongoDB to be ready..."
 until node -e "require('dotenv').config(); const mongoose = require('mongoose'); mongoose.connect(process.env.MONGO_URI).then(() => { console.log('MongoDB is ready'); process.exit(0); }).catch(() => { process.exit(1); });"
