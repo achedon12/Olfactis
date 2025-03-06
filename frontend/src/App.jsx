@@ -1,23 +1,16 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import LoginButton from "./components/LoginButton.jsx";
-
-const App = () => {
-    const {isAuthenticated} = false;
-
-    return (
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './providers/AuthProvider';
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Login from "./pages/Login.jsx";
+const App = () => (
+    <AuthProvider>
         <Router>
-            <div>
-                {isAuthenticated ? (
-                    <Routes>
-                        <Route path="/" element={<p>Authentifié !</p>}/>
-                    </Routes>
-                ) : (
-                    <LoginButton/>
-                )}
-            </div>
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<ProtectedRoute><p>Authenfified</p></ProtectedRoute>} />
+            </Routes>
         </Router>
-    );
-};
+    </AuthProvider>
+);
 
 export default App;

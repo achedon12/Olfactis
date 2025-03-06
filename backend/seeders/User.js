@@ -12,7 +12,7 @@ const seedUsers = async () => {
         firstname: 'admin',
         lastname: 'admin',
         email: 'admin@gmail.com',
-        password: 'password'
+        password: 'admin'
     });
 
     adminUser.password = await bcrypt.hash('admin', 10);

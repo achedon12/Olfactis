@@ -13,3 +13,19 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+html {
+  --color-primary: #ffedfa;
+  --color-secondary: #ffb8e0;
+  --color-tertiary: #ec7fa9;
+  --color-quaternary: #be5985;
+  --text-color: #333;
+}
+
+html.dark {
+  --color-primary: #ffedfa;
+  --color-secondary: #ffb8e0;
+  --color-tertiary: #ec7fa9;
+  --color-quaternary: #be5985;
+  --text-color: #eaeaf6;
+}
