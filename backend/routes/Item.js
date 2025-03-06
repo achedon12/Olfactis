@@ -4,8 +4,9 @@ const router = express.Router();
 const Item = require('../models/Item');
 const Category = require('../models/Category');
 const State = require('../models/State');
+const verifyToken = require("../middleware/jwt");
 
-router.post('/create', async (req, res) => {
+router.post('/create', verifyToken, async (req, res) => {
     try {
         const newItem = new Item(req.body);
         const itemRegistered = await newItem.save();
@@ -21,7 +22,7 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.get('/list', async (req, res) => {
+router.get('/list', verifyToken, async (req, res) => {
     try {
         const items = await Item.find().populate('category').populate('state');
         res.status(200).json(items);
@@ -31,7 +32,7 @@ router.get('/list', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
     try {
         const item = await Item.findById(req.params.id).populate('category').populate('state');
 
@@ -46,7 +47,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/update/:id', async (req, res) => {
+router.put('/update/:id', verifyToken, async (req, res) => {
     try {
         const item = await Item.findByIdAndUpdate(req.params.id).populate('category').populate('state');
 
@@ -63,7 +64,7 @@ router.put('/update/:id', async (req, res) => {
     }
 });
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', verifyToken, async (req, res) => {
     try {
         const item = await Item.findByIdAndDelete(req.params.id);
 

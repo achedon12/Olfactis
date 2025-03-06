@@ -3,8 +3,9 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 
 const State = require('../models/State');
+const verifyToken = require("../middleware/jwt");
 
-router.post('/create', async (req, res) => {
+router.post('/create', verifyToken, async (req, res) => {
     try {
         const newState = new State(req.body);
         const StateRegistered = await newState.save();
@@ -15,7 +16,7 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.get('/list', async (req, res) => {
+router.get('/list', verifyToken, async (req, res) => {
     try {
         const States = await State.find();
         res.status(200).json(States);
@@ -25,7 +26,7 @@ router.get('/list', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
     try {
         const state = await State.findById(req.params.id);
 
@@ -40,7 +41,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/update/:id', async (req, res) => {
+router.put('/update/:id', verifyToken, async (req, res) => {
     try {
         const state = await State.findByIdAndUpdate(req.params.id);
 
@@ -57,7 +58,7 @@ router.put('/update/:id', async (req, res) => {
     }
 });
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', verifyToken, async (req, res) => {
     try {
         const state = await State.findByIdAndDelete(req.params.id);
 
