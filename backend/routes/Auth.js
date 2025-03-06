@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const path = require('path');
+const crypto = require('crypto');
+
 
 const router = express.Router();
 const User = require('../models/User');
@@ -56,6 +58,25 @@ router.get('/verify/:token', async (req, res) => {
         res.sendFile(path.join(__dirname, '../views/verification.html'));
     } catch (error) {
         res.status(400).send('<h1>Error verifying account</h1>');
+    }
+});
+
+router.post('/reset-password', async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const newPassword = crypto.randomBytes(8).toString('hex');
+        user.password = await bcrypt.hash(newPassword, 10);
+        await user.save();
+
+        await sendMail(user.email, 'Password Reset', 'reset_password.html', { newPassword });
+
+        res.status(200).json({ message: 'New password has been sent to your email' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
 });
 
