@@ -56,6 +56,7 @@ router.put('/update/:id', verifyToken, async (req, res) => {
         }
 
         item.set(req.body);
+        item.updated_at = new Date();
         const itemUpdated = await item.save();
         res.status(200).json(itemUpdated);
 

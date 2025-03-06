@@ -49,6 +49,7 @@ router.put('/update/:id', verifyToken, async (req, res) => {
         }
 
         category.set(req.body);
+        category.updated_at = new Date();
         const categoryUpdated = await category.save();
         res.status(200).json(categoryUpdated);
 

@@ -4,6 +4,7 @@ const router = express.Router();
 const verifyToken = require('../middleware/jwt');
 
 const User = require('../models/User');
+const sendMail = require("../utils/mailer");
 
 router.post('/create', verifyToken, async (req, res) => {
     try {
@@ -12,6 +13,7 @@ router.post('/create', verifyToken, async (req, res) => {
         const userRegistered = await newUser.save();
         res.status(201).json(userRegistered);
 
+        await sendMail(req.body.email, 'Account verification', 'registration.html', {token: newUser.verification_token, email: req.body.email, firstname: req.body.firstname, verification_link: process.env.APP_URL + '/api/auth/verify/' + newUser.verification_token});
     } catch (error) {
         res.status(400).json({message: error.message});
     }

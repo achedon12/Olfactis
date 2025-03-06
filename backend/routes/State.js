@@ -50,6 +50,7 @@ router.put('/update/:id', verifyToken, async (req, res) => {
         }
 
         state.set(req.body);
+        state.updated_at = new Date();
         const stateUpdated = await state.save();
         res.status(200).json(stateUpdated);
 
