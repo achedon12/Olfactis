@@ -48,3 +48,7 @@ html.dark {
     --input-color: #ecc8d3;
     --text-color: #eaeaf6;
 }
+
+nav h1 {
+    font-family: "Poppins", sans-serif;
+}
