@@ -8,11 +8,27 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token) {
+        if (token && token !== 'undefined') {
             setIsAuthenticated(true);
         }
         setLoading(false);
     }, []);
+
+    const register = async (firstname, lastname, email, password) => {
+        const response = await fetch('http://localhost:2501/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ firstname, lastname, email, password })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+            setIsAuthenticated(true);
+        }
+    }
 
     const login = async (email, password) => {
         const response = await fetch('http://localhost:2501/api/auth/login', {
@@ -36,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, loading }}>
+        <AuthContext.Provider value={{ isAuthenticated, register, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

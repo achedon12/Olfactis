@@ -9,9 +9,10 @@ router.post('/register', async (req, res) => {
     try {
         const newUser = new User(req.body);
         newUser.password = await bcrypt.hash(req.body.password, 10);
-        const userRegistered = await newUser.save();
-        res.status(201).json(userRegistered);
-
+        const token = jwt.sign({ email: newUser.email }, process.env.JWT_SECRET);
+        newUser.token = token;
+        await newUser.save();
+        res.status(201).json({ token });
     } catch (error) {
         res.status(400).json({message: error.message});
     }
