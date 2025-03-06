@@ -13,6 +13,7 @@ export default {
         'tertiary': 'var(--color-tertiary)',
         'quaternary': 'var(--color-quaternary)',
         'text-color': 'var(--text-color)',
+        'input-color': 'var(--input-color)',
       },
     },
   },
