@@ -72,7 +72,7 @@ const Login = () => {
                     <div className={'flex justify-center items-center flex-col my-6'}>
                         <button type="submit"
                                 className={'w-2/5 p-2 my-2 bg-quaternary text-white text-xl cursor-pointer'}>
-                            {isRegister ? 'Register' : 'Login'}
+                            {isRegister ? 'S\'enregistrer' : 'Se connecter'}
                         </button>
                         <p className={'text-center my-4 text-sm'}>
                             {isRegister ? 'Vous avez déjà un compte ? ' : 'Vous n\'avez pas de compte ? '}

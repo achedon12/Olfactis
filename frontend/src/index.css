@@ -24,6 +24,7 @@
 
     color-scheme: light dark;
     color: #333;
+    background-color: var(--color-primary);
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -32,7 +33,7 @@
 }
 
 html {
-    --color-primary: #ffedfa;
+    --color-primary: #fff7f3;
     --color-secondary: #ffb8e0;
     --color-tertiary: #ec7fa9;
     --color-quaternary: #be5985;
@@ -41,7 +42,7 @@ html {
 }
 
 html.dark {
-    --color-primary: #ffedfa;
+    --color-primary: #fff7f3;
     --color-secondary: #ffb8e0;
     --color-tertiary: #ec7fa9;
     --color-quaternary: #be5985;
