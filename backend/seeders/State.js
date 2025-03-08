@@ -2,23 +2,11 @@ const State = require('../models/State');
 
 const seedStates = async () => {
     const states = [
-        {
-            name: 'Available'
-        },
-        {
-            name: 'Booked'
-
-        },
-        {
-            name: 'Returned'
-        },
-        {
-            name: 'Asked'
-        },
-        {
-            name: 'Damaged'
-        }
-    ];
+        { name: 'AVAILABLE' },
+        { name: 'BOOKED' },
+        { name: 'LOANED' },
+        { name: 'RETURNED' }
+    ]
 
     await State.deleteMany({});
 

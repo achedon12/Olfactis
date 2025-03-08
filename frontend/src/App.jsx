@@ -1,17 +1,24 @@
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {AuthProvider} from './providers/AuthProvider';
 import {ProtectedRoute} from "./components";
-import {Home, Login, Material} from "./pages";
+import {Home, Layout, Login, Catalog, NotFound, Items} from "./pages";
 
 const App = () => (
     <AuthProvider>
-        <Router>
+        <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Login/>}/>
-                <Route path="/" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
-                <Route path="/material" element={<ProtectedRoute><Material/></ProtectedRoute>}/>
+                <Route path="/" element={<Layout/>}>
+                    <Route index element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+                    <Route path="/catalog" element={<ProtectedRoute><Catalog/></ProtectedRoute>}/>
+                    {/* For the admin */}
+                    <Route path="/items" element={<ProtectedRoute><Items /></ProtectedRoute>} />
+                    {/*<Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />*/}
+                    {/*<Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />*/}
+                </Route>
+                <Route path="*" element={<NotFound/>}/>
             </Routes>
-        </Router>
+        </BrowserRouter>
     </AuthProvider>
 );
 

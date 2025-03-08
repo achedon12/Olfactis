@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 
+
 const StateSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        enum: ['AVAILABLE', 'BOOKED', 'LOANED', 'RETURNED']
     },
     created_at: {
         type: Date,

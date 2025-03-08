@@ -1,6 +1,7 @@
 import {useState, useContext} from 'react';
 import {AuthContext} from '../providers/AuthProvider';
 import {useNavigate} from 'react-router-dom';
+import {CustomButton} from "../components";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -35,7 +36,7 @@ const Login = () => {
             {/*<img src={'/logo.svg'} alt={'logo'} className={'w-2/4 md:w-2/5 absolute right-50 top-0'}/>*/}
             <div className={'w-full h-screen flex flex-col items-center justify-center bg-tertiary'}>
                 <h1 className={'text-white text-[3rem] my-4'}>OLFACTIS</h1>
-                <form onSubmit={handleSubmit} className={'bg-primary px-4 md:px-8 w-5/6 md:w-1/4'}>
+                <form onSubmit={handleSubmit} className={'bg-primary px-4 md:px-8 w-5/6 lg:w-1/4'}>
                     <h2 className={'text-center mt-6 mb-8 text-xl'}>Bienvenue</h2>
                     {isRegister && (
                         <>
@@ -70,10 +71,7 @@ const Login = () => {
                            className={'w-full p-2 my-2 bg-input-color placeholder-white text-text-color focus:outline-quaternary'}
                     />
                     <div className={'flex justify-center items-center flex-col my-6'}>
-                        <button type="submit"
-                                className={'w-2/5 p-2 my-2 bg-quaternary text-white text-xl cursor-pointer'}>
-                            {isRegister ? 'S\'enregistrer' : 'Se connecter'}
-                        </button>
+                        <CustomButton type="submit">{isRegister ? 'S\'enregistrer' : 'Se connecter'}</CustomButton>
                         <p className={'text-center my-4 text-sm'}>
                             {isRegister ? 'Vous avez déjà un compte ? ' : 'Vous n\'avez pas de compte ? '}
                             <a onClick={() => setIsRegister(!isRegister)} className={'text-quaternary cursor-pointer'}>
