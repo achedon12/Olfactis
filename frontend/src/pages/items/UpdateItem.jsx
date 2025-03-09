@@ -93,6 +93,7 @@ const UpdateItem = () => {
 
     return (
         <div className="max-w-lg mx-auto mt-10">
+            <ActionButton onClick={() => navigate('/items')} className="absolute left-2 md:left-10">Go back</ActionButton>
             <h1 className="text-2xl mb-6 text-center">{isEditMode ? 'Update Item' : 'Add Item'}</h1>
             <form onSubmit={handleSubmit} className="bg-white px-4 md:px-8 py-6 my-4">
                 <div className="mb-6">

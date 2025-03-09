@@ -39,7 +39,7 @@ const Layout = () => {
             <nav className={'bg-tertiary w-full h-16 border-b-1 border-primary flex items-center justify-between px-8'}>
                 <ul className={'flex space-x-2 md:space-x-8'}>
                     <li className={'text-base md:text-lg'}>
-                        <NavLink to="/" className={({ isActive }) => isActive ? 'text-quaternary' : 'text-white'}>
+                        <NavLink to="/">
                             <img src={'/olfactis.png'} alt={'logo'} className={'h-8'} />
                         </NavLink>
                     </li>

@@ -37,6 +37,7 @@ html {
     --color-secondary: #E6CCB2;
     --color-tertiary: #DDB892;
     --color-quaternary: #B08968;
+    --color-opposite: #926575;
     --input-color: #9e8874;
     --text-color: #333;
 }

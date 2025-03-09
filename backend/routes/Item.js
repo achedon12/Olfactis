@@ -32,15 +32,6 @@ router.get('/list', verifyToken, async (req, res) => {
     }
 });
 
-router.get('/list/available', verifyToken, async (req, res) => {
-    try {
-        const items = await Item.find({state: 'AVAILABLE'}).populate('category').populate('state');
-        res.status(200).json(items);
-    } catch (error) {
-        res.status(400).json({message: error.message});
-    }
-});
-
 router.get('/:id', verifyToken, async (req, res) => {
     try {
         const item = await Item.findById(req.params.id).populate('category').populate('state');

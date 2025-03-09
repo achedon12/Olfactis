@@ -3,9 +3,7 @@ const State = require('../models/State');
 const seedStates = async () => {
     const states = [
         { name: 'AVAILABLE' },
-        { name: 'BOOKED' },
         { name: 'LOANED' },
-        { name: 'RETURNED' }
     ]
 
     await State.deleteMany({});

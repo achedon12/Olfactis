@@ -12,6 +12,7 @@ export default {
         'secondary': 'var(--color-secondary)',
         'tertiary': 'var(--color-tertiary)',
         'quaternary': 'var(--color-quaternary)',
+        'opposite': 'var(--color-opposite)',
         'text-color': 'var(--text-color)',
         'input-color': 'var(--input-color)',
       },

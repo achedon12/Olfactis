@@ -5,7 +5,7 @@ const StateSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        enum: ['AVAILABLE', 'BOOKED', 'LOANED', 'RETURNED']
+        enum: ['AVAILABLE', 'LOANED']
     },
     created_at: {
         type: Date,
