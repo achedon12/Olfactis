@@ -1,4 +1,4 @@
-import {CustomButton} from "./index.js";
+import {ActionButton} from "./index.js";
 
 const ItemCard = ({item}) => {
     return (
@@ -12,7 +12,7 @@ const ItemCard = ({item}) => {
             </div>
             <div className={'mt-4'}>
                 {/*<button className={'bg-quaternary text-white px-4 py-2 text-[.6rem] sm:text-sm hover:bg-tertiary transition ease-in duration-200 cursor-pointer'}>Book</button>*/}
-                <CustomButton>Book</CustomButton>
+                <ActionButton>Book</ActionButton>
             </div>
         </div>
     );

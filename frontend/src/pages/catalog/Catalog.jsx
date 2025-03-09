@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Loader, ItemCard } from "../components";
+import { Loader, ItemCard } from "../../components/index.js";
 import { MagnifyingGlass } from '@phosphor-icons/react';
-import config from "../providers/apiConfig.js";
+import config from "../../providers/apiConfig.js";
 
 const Catalog = () => {
     const [items, setItems] = useState([]);

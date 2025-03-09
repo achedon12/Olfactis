@@ -33,11 +33,11 @@
 }
 
 html {
-    --color-primary: #fff7f3;
-    --color-secondary: #ffb8e0;
-    --color-tertiary: #ec7fa9;
-    --color-quaternary: #be5985;
-    --input-color: #ecc8d3;
+    --color-primary: #EDE0D4;
+    --color-secondary: #E6CCB2;
+    --color-tertiary: #DDB892;
+    --color-quaternary: #B08968;
+    --input-color: #9e8874;
     --text-color: #333;
 }
 
