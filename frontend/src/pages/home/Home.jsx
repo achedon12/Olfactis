@@ -20,7 +20,7 @@ const Home = () => {
             </section>
 
             <section className={'w-full h-30 justify-center items-center flex flex-col'}>
-                <ActionButton onClick={() => navigate('/catalog')}>Search a item to book</ActionButton>
+                <ActionButton onClick={() => navigate('/catalog')}>See the catalog</ActionButton>
             </section>
 
         </div>
