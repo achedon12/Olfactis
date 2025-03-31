@@ -1,18 +1,23 @@
 const { faker } = require('@faker-js/faker');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const subscription = require('../models/Subscription');
 
 const NUMBER_OF_USERS = 50;
 
 const seedUsers = async () => {
     await User.deleteMany({});
 
+    const subscriptions = await subscription.find();
+
     // adminUser
     const adminUser = new User({
         firstname: 'admin',
         lastname: 'admin',
         email: 'admin@gmail.com',
-        password: 'admin'
+        password: 'admin',
+        // admin subscription where name = admin
+        subscription: subscriptions.find(sub => sub.name === 'admin')._id
     });
 
     adminUser.password = await bcrypt.hash('admin', 10);
@@ -24,7 +29,8 @@ const seedUsers = async () => {
             firstname: faker.person.firstName(),
             lastname: faker.person.lastName(),
             email: faker.internet.email(),
-            password: faker.internet.password()
+            password: 'password',
+            subscription: [subscriptions[Math.floor(Math.random() * subscriptions.length)]._id]
         });
         user.password = await bcrypt.hash(user.password, 10);
 

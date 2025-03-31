@@ -7,14 +7,18 @@ const seedUsers = require('./User');
 const seedCategories = require('./Category');
 const seedItems = require('./Item');
 const seedStates = require('./State');
+const seedSubscriptions = require('./Subscription');
+const seedUsersSubscription = require('./UserSubscription');
 
 // Connect to the database
 connectDB();
 
 const seedDatabase = async () => {
     try {
-        await seedUsers();
         await seedCategories();
+        await seedSubscriptions();
+        await seedUsers();
+        await seedUsersSubscription();
         await seedStates();
         await seedItems();
         console.log('Database seeded');

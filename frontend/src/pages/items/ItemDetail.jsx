@@ -1,13 +1,18 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {useParams, useLocation, useNavigate} from 'react-router-dom';
 import config from "../../providers/apiConfig.js";
 import {ActionButton, Loader} from "../../components";
+import BookingPopup from "../../components/BookingPopup.jsx";
+import { ToastContainer, toast } from 'react-toastify';
 
 const ItemDetail = () => {
     const [item, setItem] = useState(null);
     const {id} = useParams();
     const location = useLocation();
     const navigate = useNavigate();
+    const [showPopup, setShowPopup] = useState(false);
+    const loansCount = useRef(JSON.parse(localStorage.getItem('loans')).length);
+    const bookingCount = useRef(JSON.parse(localStorage.getItem('bookings')).length);
 
     const fromCatalog = new URLSearchParams(location.search).get('fromCatalog') === 'true';
 
@@ -41,6 +46,63 @@ const ItemDetail = () => {
         }
     };
 
+    const handleLoan = async (item) => {
+        if (loansCount <= 0 ) {
+            toast.error('You can\'t loan more items');
+            return;
+        }
+        const dueDate = new Date();
+        dueDate.setMonth(dueDate.getMonth() + JSON.parse(localStorage.getItem('user')).subscription.loan_limit);
+        const response = await fetch(`${config.apiBaseUrl}/loan`, {
+            method: 'POST',
+            headers: config.headers,
+            body: JSON.stringify({
+                token: localStorage.getItem('token'),
+                item: item._id,
+                user: JSON.parse(localStorage.getItem('user'))._id,
+                start_date: new Date(),
+                end_date: dueDate
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setItem(data.item);
+            localStorage.setItem('loans', JSON.stringify(data.loans));
+            toast.success('Loan successful');
+            setShowPopup(false);
+        }
+    };
+
+    const handleBook = async (item) => {
+        if (bookingCount <= 0) {
+            toast.error('You can\'t book more items');
+            return;
+        }
+        const dueDate = new Date();
+        dueDate.setMonth(dueDate.getMonth() + JSON.parse(localStorage.getItem('user')).subscription.booking_limit);
+        const response = await fetch(`${config.apiBaseUrl}/booking`, {
+            method: 'POST',
+            headers: config.headers,
+            body: JSON.stringify({
+                token: localStorage.getItem('token'),
+                item: item._id,
+                user: JSON.parse(localStorage.getItem('user'))._id,
+                start_date: new Date(),
+                end_date: dueDate
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('bookings', JSON.stringify(data.bookings));
+            toast.success('Booking successful');
+            setShowPopup(false);
+        } else {
+            toast.error('Booking failed');
+        }
+    };
+
     return (
         <div className={'w-full h-[calc(100vh-4rem)]'}>
             <div className={'h-2/3 bg-white'}>
@@ -61,7 +123,9 @@ const ItemDetail = () => {
                                     {/*<p>The expected return date is {new Date(item.loan.end_date).toLocaleDateString()}.</p>*/}
                                 </div>
                             }
-                            <button className={`${item.state.name === 'AVAILABLE' ? 'bg-quaternary hover:bg-secondary' : 'bg-opposite'} text-white px-4 py-2 text-[.6rem] sm:text-sm transition ease-in duration-200 cursor-pointer mt-10`}>
+                            <button
+                                onClick={() => setShowPopup(true)}
+                                className={`${item.state.name === 'AVAILABLE' ? 'bg-quaternary hover:bg-secondary' : 'bg-opposite'} text-white px-4 py-2 text-[.6rem] sm:text-sm transition ease-in duration-200 cursor-pointer mt-10`}>
                                 {item.state.name === 'AVAILABLE' ? 'Loan' : 'Book'}
                             </button>
                         </div>
@@ -71,6 +135,16 @@ const ItemDetail = () => {
             <div className={'w-full flex justify-center items-center h-1/3'}>
                 <ActionButton onClick={handleGoBack}>Go back</ActionButton>
             </div>
+            <BookingPopup
+                item={item}
+                showPopup={showPopup}
+                setShowPopup={setShowPopup}
+                action={item.state.name === 'AVAILABLE' ? 'Loan' : 'Book'}
+                handleAction={() => {
+                    item.state.name === 'AVAILABLE' ? handleLoan(item) : handleBook(item);
+                }}
+            />
+            <ToastContainer />
         </div>
     );
 }

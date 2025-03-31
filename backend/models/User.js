@@ -39,6 +39,11 @@ const UserSchema = new mongoose.Schema({
     updated_at: {
         type: Date,
         default: Date.now
+    },
+    subscription: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Subscription',
+        required: true
     }
 });
 

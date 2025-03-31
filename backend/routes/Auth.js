@@ -8,6 +8,10 @@ const crypto = require('crypto');
 const router = express.Router();
 const User = require('../models/User');
 const sendMail = require("../utils/mailer");
+const Subscription = require("../models/Subscription");
+const Loan = require('../models/Loan');
+const Booking = require('../models/Booking');
+
 
 router.post('/register', async (req, res) => {
     try {
@@ -17,8 +21,12 @@ router.post('/register', async (req, res) => {
         newUser.token = token;
         newUser.verification_token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
+        const subscription = await Subscription.findOne({ name: 'Basic' });
+        newUser.subscription = subscription._id;
+
         await newUser.save();
-        res.status(201).json({ token });
+
+        res.status(201).json({ token, newUser, subscription, loans: [], bookings: [] });
 
         await sendMail(req.body.email, 'Account verification', 'registration.html', {token: newUser.verification_token, email: req.body.email, firstname: req.body.firstname, verification_link: process.env.APP_URL + '/api/auth/verify/' + newUser.verification_token});
     } catch (error) {
@@ -34,7 +42,11 @@ router.post('/login', async (req, res) => {
             user.token = token;
             user.updated_at = new Date();
             await user.save();
-            res.status(200).json({ token });
+            user.populate('subscription');
+
+            const loans = await Loan.find({ user: user._id });
+            const bookings = await Booking.find({ user: user._id });
+            res.status(200).json({ token, user, loans, bookings });
         } else {
             res.status(401).json({ message: 'Invalid password' });
         }

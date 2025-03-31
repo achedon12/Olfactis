@@ -16,6 +16,7 @@ app.use('/api/category', require('./routes/Category'));
 app.use('/api/state', require('./routes/State'));
 app.use('/api/item', require('./routes/Item'));
 app.use('/api/booking', require('./routes/Booking'));
+app.use('/api/loan', require('./routes/Loan'));
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
