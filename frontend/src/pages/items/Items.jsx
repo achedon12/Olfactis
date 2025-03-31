@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from "../../providers/apiConfig.js";
-import { ActionButton, Loader, ConfirmPopup } from "../../components/index.js";
+import { Loader, ConfirmPopup } from "../../components/index.js";
 import { PencilSimple, TrashSimple, Eye } from '@phosphor-icons/react';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 
 const Items = () => {
     const [items, setItems] = useState([]);
@@ -10,6 +11,17 @@ const Items = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
     const navigate = useNavigate();
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -72,45 +84,65 @@ const Items = () => {
         );
     }
 
+    const columns = [
+        { id: 'name', label: 'Name', minWidth: 170 },
+        { id: 'description', label: 'Description', minWidth: 100 },
+        { id: 'picture', label: 'Picture', minWidth: 100 },
+        { id: 'reference', label: 'Reference', minWidth: 100 },
+        { id: 'category', label: 'Category', minWidth: 100, accessor: item => item.category.name },
+        { id: 'state', label: 'State', minWidth: 100, accessor: item => item.state.name },
+    ]
+
     return (
         <div className="w-full">
             <h1 className={'text-3xl text-center my-6 tracking-widest'}>Items</h1>
             {loading ? (
                 <Loader />
             ) : (
-                <div className={'mx-4 lg:mx-20'}>
-                    <div className="flex justify-start mb-4">
-                        <ActionButton onClick={() => navigate('/item/update')}>Add Item</ActionButton>
-                    </div>
-                    <div className="overflow-x-auto rounded">
-                        <table className="min-w-full bg-white">
-                            <thead>
-                            <tr>
-                                <th className="bg-secondary py-2 px-4 border-r border-quaternary text-[.7rem] lg:text-base">Tools</th>
-                                <th className="bg-secondary py-2 px-4 border-r border-quaternary text-[.7rem] lg:text-base">Name</th>
-                                <th className="bg-secondary py-2 px-4 border-r border-quaternary text-[.7rem] lg:text-base">Description</th>
-                                <th className="bg-secondary py-2 px-4 border-r border-quaternary text-[.7rem] lg:text-base">Picture</th>
-                                <th className="bg-secondary py-2 px-4 border-r border-quaternary text-[.7rem] lg:text-base">Reference</th>
-                                <th className="bg-secondary py-2 px-4 border-r border-quaternary text-[.7rem] lg:text-base">Category</th>
-                                <th className="bg-secondary py-2 px-4 text-[.7rem] lg:text-base">State</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {items.map(item => (
-                                <tr key={item._id}>
-                                    <td className="py-2 px-4 border-t border-r border-quaternary text-[.6rem] lg:text-sm">{rowActions(item)}</td>
-                                    <td className="py-2 px-4 border-t border-r border-quaternary text-[.6rem] lg:text-sm">{item.name}</td>
-                                    <td className="py-2 px-4 border-t border-r border-quaternary text-[.6rem] lg:text-sm truncate max-w-xs">{item.description}</td>
-                                    <td className="py-2 px-4 border-t border-r border-quaternary text-[.6rem] lg:text-sm">{item.picture}</td>
-                                    <td className="py-2 px-4 border-t border-r border-quaternary text-[.6rem] lg:text-sm">{item.reference}</td>
-                                    <td className="py-2 px-4 border-t border-r border-quaternary text-[.6rem] lg:text-sm">{item.category.name}</td>
-                                    <td className="py-2 px-4 border-t border-quaternary text-[.6rem] lg:text-sm">{item.state.name}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <Paper sx={{ width: '98%', overflow: 'hidden' }} className="mx-auto">
+                    <TableContainer sx={{ maxHeight: 'calc(100vh - 200px)' }}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell key="actions" align="center" style={{ minWidth: 100 }}>
+                                        Actions
+                                    </TableCell>
+                                    {columns.map((column) => (
+                                        <TableCell key={column.id} align="center" style={{ minWidth: column.minWidth }}>
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {items.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => (
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={item._id}>
+                                        <TableCell key="actions" align="center">
+                                            {rowActions(item)}
+                                        </TableCell>
+                                        {columns.map((column) => {
+                                            const value = column.accessor ? column.accessor(item) : item[column.id];
+                                            return (
+                                                <TableCell key={column.id} align="center">
+                                                    {column.id === 'picture' ? <img src={value} alt={item.name} className="h-16 w-16" /> : value}
+                                                </TableCell>
+                                            );
+                                        })}
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 100]}
+                        component="div"
+                        count={items.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
             )}
             <ConfirmPopup isOpen={isModalOpen} onClose={closeModal} onConfirm={handleDelete}>
                 Are you sure you want to delete this item?
