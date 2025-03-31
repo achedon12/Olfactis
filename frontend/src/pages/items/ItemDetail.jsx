@@ -11,8 +11,7 @@ const ItemDetail = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [showPopup, setShowPopup] = useState(false);
-    const loansCount = useRef(JSON.parse(localStorage.getItem('loans')).length);
-    const bookingCount = useRef(JSON.parse(localStorage.getItem('bookings')).length);
+    const user = useRef(JSON.parse(localStorage.getItem('user')));
 
     const fromCatalog = new URLSearchParams(location.search).get('fromCatalog') === 'true';
 
@@ -47,7 +46,9 @@ const ItemDetail = () => {
     };
 
     const handleLoan = async (item) => {
-        if (loansCount <= 0 ) {
+        const loansCount = JSON.parse(localStorage.getItem('loans')).length;
+        if (loansCount >= user.current.subscription.loan_limit) {
+            setShowPopup(false);
             toast.error('You can\'t loan more items');
             return;
         }
@@ -75,8 +76,10 @@ const ItemDetail = () => {
     };
 
     const handleBook = async (item) => {
-        if (bookingCount <= 0) {
+        const bookingCount = JSON.parse(localStorage.getItem('bookings')).length;
+        if (bookingCount >= user.current.subscription.booking_limit) {
             toast.error('You can\'t book more items');
+            setShowPopup(false);
             return;
         }
         const dueDate = new Date();
