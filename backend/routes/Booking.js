@@ -3,6 +3,8 @@ const router = express.Router();
 const verifyToken = require('../middleware/jwt');
 
 const Booking = require('../models/Booking');
+const User = require('../models/User');
+const Loan = require('../models/Loan');
 
 router.get('/', verifyToken, async (req, res) => {
     try {
@@ -24,6 +26,34 @@ router.get('/:id', verifyToken, async (req, res) => {
 
 router.post('/', verifyToken, async (req, res) => {
     try {
+        const user = await User.findOne({_id: req.body.user});
+        user.populate('subscription');
+
+        let bookings = await Booking.find({item: req.body.item});
+        if (bookings.length >= user.subscription.booking_limit && user.subscription.name !== 'admin') {
+            res.status(400).json({error: 'You can\'t book more items'});
+            return;
+        }
+
+        const itemLoanUser = await Loan.findOne({ item: req.body.item });
+        itemLoanUser.populate('user');
+
+        if (itemLoanUser.user._id.toString() === user._id.toString()) {
+            res.status(400).json({error: 'You can\'t book an item you have already loaned'});
+            return;
+        }
+
+        let booked = false;
+        bookings.forEach((booking) => {
+            booking.populate('user');
+            if (booking.user._id.toString() === user._id.toString()) {
+                booked = true;
+            }
+        });
+        if (booked) {
+            res.status(400).json({error: 'You have already booked this item'});
+        }
+
         const booking = new Booking({
             item: req.body.item,
             user: req.body.user,
@@ -31,8 +61,8 @@ router.post('/', verifyToken, async (req, res) => {
             end_date: req.body.end_date
         });
         await booking.save();
-        const bookings = await Booking.find({item: booking.item});
-        res.json({ bookings });
+        bookings = await Booking.find({item: booking.item});
+        res.json({bookings});
     } catch (error) {
         res.status(400).json({error: error});
     }

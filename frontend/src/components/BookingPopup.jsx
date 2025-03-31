@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState} from "react";
+import config from "../providers/apiConfig.js";
 
 const BookingPopup = ({item, setShowPopup, showPopup, action = 'Loan', handleAction = () => {}}) => {
 
@@ -6,6 +7,7 @@ const BookingPopup = ({item, setShowPopup, showPopup, action = 'Loan', handleAct
     const bookingCount = useRef(JSON.parse(localStorage.getItem('bookings')).length);
     const loansCount = useRef(JSON.parse(localStorage.getItem('loans')).length);
     const [dueDate, setDueDate] = useState('');
+    const [returnDate, setReturnDate] = useState('');
 
     useEffect(() => {
         if (subscription.current.loan_limit === -1) {
@@ -16,6 +18,24 @@ const BookingPopup = ({item, setShowPopup, showPopup, action = 'Loan', handleAct
         date.setMonth(date.getMonth() + subscription.current.loan_limit);
         setDueDate(date.toDateString());
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (showPopup && action === 'Book') {
+                const response = await fetch(`${config.apiBaseUrl}/loan/${item._id}`, {
+                    method: 'GET',
+                    headers: config.headers
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setReturnDate(new Date(data.end_date).toDateString());
+                }
+            }
+        };
+
+        fetchData();
+    }, [showPopup]);
 
     if (!showPopup) {
         return null;
@@ -40,7 +60,7 @@ const BookingPopup = ({item, setShowPopup, showPopup, action = 'Loan', handleAct
                         {item.state.name === 'LOANED' &&
                             <div>
                                 <p>This item is currently loaned.</p>
-                                <p>It will be available on {item.returnDate}.</p>
+                                <p>It will be available on { returnDate }.</p>
                             </div>
                         }
                     </div>

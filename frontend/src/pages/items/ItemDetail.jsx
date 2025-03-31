@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 import {useParams, useLocation, useNavigate} from 'react-router-dom';
 import config from "../../providers/apiConfig.js";
 import {ActionButton, Loader} from "../../components";
@@ -11,7 +11,6 @@ const ItemDetail = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [showPopup, setShowPopup] = useState(false);
-    const user = useRef(JSON.parse(localStorage.getItem('user')));
 
     const fromCatalog = new URLSearchParams(location.search).get('fromCatalog') === 'true';
 
@@ -46,12 +45,6 @@ const ItemDetail = () => {
     };
 
     const handleLoan = async (item) => {
-        const loansCount = JSON.parse(localStorage.getItem('loans')).length;
-        if (loansCount >= user.current.subscription.loan_limit) {
-            setShowPopup(false);
-            toast.error('You can\'t loan more items');
-            return;
-        }
         const dueDate = new Date();
         dueDate.setMonth(dueDate.getMonth() + JSON.parse(localStorage.getItem('user')).subscription.loan_limit);
         const response = await fetch(`${config.apiBaseUrl}/loan`, {
@@ -66,22 +59,18 @@ const ItemDetail = () => {
             })
         });
 
+        const data = await response.json();
         if (response.ok) {
-            const data = await response.json();
             setItem(data.item);
             localStorage.setItem('loans', JSON.stringify(data.loans));
             toast.success('Loan successful');
             setShowPopup(false);
+        } else {
+            toast.error(data.error);
         }
     };
 
     const handleBook = async (item) => {
-        const bookingCount = JSON.parse(localStorage.getItem('bookings')).length;
-        if (bookingCount >= user.current.subscription.booking_limit) {
-            toast.error('You can\'t book more items');
-            setShowPopup(false);
-            return;
-        }
         const dueDate = new Date();
         dueDate.setMonth(dueDate.getMonth() + JSON.parse(localStorage.getItem('user')).subscription.booking_limit);
         const response = await fetch(`${config.apiBaseUrl}/booking`, {
@@ -96,13 +85,13 @@ const ItemDetail = () => {
             })
         });
 
+        const data = await response.json();
         if (response.ok) {
-            const data = await response.json();
             localStorage.setItem('bookings', JSON.stringify(data.bookings));
             toast.success('Booking successful');
             setShowPopup(false);
         } else {
-            toast.error('Booking failed');
+            toast.error(data.error);
         }
     };
 
@@ -123,7 +112,6 @@ const ItemDetail = () => {
                             {item.state.name === 'LOANED' &&
                                 <div>
                                     <p>This item is currently loaned.</p>
-                                    {/*<p>The expected return date is {new Date(item.loan.end_date).toLocaleDateString()}.</p>*/}
                                 </div>
                             }
                             <button

@@ -6,6 +6,7 @@ const Loan = require('../models/Loan');
 const Booking = require("../models/Booking");
 const Item = require("../models/Item");
 const State = require("../models/State");
+const User = require("../models/User");
 
 router.get('/', verifyToken, async (req, res) => {
     try {
@@ -18,7 +19,7 @@ router.get('/', verifyToken, async (req, res) => {
 
 router.get('/:id', verifyToken, async (req, res) => {
     try {
-        const loan = await Loan.findById(req.params.id).populate('item').populate('user');
+        const loan = await Loan.findOne({ item: req.params.id }).populate('item').populate('user');
         res.json(loan);
     } catch (error) {
         res.status(400).json({ error: error });
@@ -27,13 +28,22 @@ router.get('/:id', verifyToken, async (req, res) => {
 
 router.post('/', verifyToken, async (req, res) => {
     try {
+        const user = await User.findById(req.body.user);
+        user.populate('subscription');
+
+        let loans = await Loan.find({item: req.body.item});
+        if (loans.length >= user.subscription.booking_limit && user.subscription.name !== 'admin') {
+            res.status(400).json({error: 'You can\'t book more items'});
+            return;
+        }
+
         const loan = new Loan({
             item: req.body.item,
             user: req.body.user,
             start_date: req.body.start_date,
             end_date: req.body.end_date
         });
-        const savedLoan = await loan.save();
+        await loan.save();
 
         const item = await Item.findOne({ _id: req.body.item });
 
@@ -42,7 +52,7 @@ router.post('/', verifyToken, async (req, res) => {
         await item.save();
         item.populate('state');
 
-        const loans = await Loan.find({ item: item._id });
+        loans = await Loan.find({ item: item._id });
 
         res.json({ loans, item });
     } catch (error) {
