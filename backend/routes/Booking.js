@@ -61,7 +61,7 @@ router.post('/', verifyToken, async (req, res) => {
             end_date: req.body.end_date
         });
         await booking.save();
-        bookings = await Booking.find({item: booking.item});
+        bookings = await Booking.find({item: booking.item}).populate('item');
         res.json({bookings});
     } catch (error) {
         res.status(400).json({error: error});

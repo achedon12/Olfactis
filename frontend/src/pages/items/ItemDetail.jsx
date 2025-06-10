@@ -45,8 +45,14 @@ const ItemDetail = () => {
     };
 
     const handleLoan = async (item) => {
-        const dueDate = new Date();
-        dueDate.setMonth(dueDate.getMonth() + JSON.parse(localStorage.getItem('user')).subscription.loan_limit);
+        toast.info('Processing your loan request...');
+
+        let hasDueDate = false;
+        if (JSON.parse(localStorage.getItem('user')).subscription.loan_limit !== -1) {
+            const dueDate = new Date();
+            hasDueDate = true;
+            dueDate.setMonth(dueDate.getMonth() + JSON.parse(localStorage.getItem('user')).subscription.loan_limit);
+        }
         const response = await fetch(`${config.apiBaseUrl}/loan`, {
             method: 'POST',
             headers: config.headers,
@@ -55,24 +61,27 @@ const ItemDetail = () => {
                 item: item._id,
                 user: JSON.parse(localStorage.getItem('user'))._id,
                 start_date: new Date(),
-                end_date: dueDate
+                end_date: hasDueDate ? dueDate : null
             })
         });
 
         const data = await response.json();
         if (response.ok) {
             setItem(data.item);
-            localStorage.setItem('loans', JSON.stringify(data.loans));
+            localStorage.setItem('loans', JSON.stringify(data.loans || []));
             toast.success('Loan successful');
             setShowPopup(false);
         } else {
-            toast.error(data.error);
+            toast.error(data.error || data.message || 'An error occurred while processing your request');
         }
     };
 
     const handleBook = async (item) => {
+        toast.info('Processing your booking request...');
+
         const dueDate = new Date();
         dueDate.setMonth(dueDate.getMonth() + JSON.parse(localStorage.getItem('user')).subscription.booking_limit);
+
         const response = await fetch(`${config.apiBaseUrl}/booking`, {
             method: 'POST',
             headers: config.headers,

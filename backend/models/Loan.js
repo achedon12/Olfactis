@@ -17,7 +17,7 @@ const LoanSchema = new mongoose.Schema({
     },
     end_date: {
         type: Date,
-        required: true
+        required: false
     },
     created_at: {
         type: Date,

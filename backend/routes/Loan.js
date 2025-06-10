@@ -29,6 +29,11 @@ router.get('/:id', verifyToken, async (req, res) => {
 router.post('/', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.body.user);
+
+        if (!user) {
+            res.status(400).json({ error: 'User not found' });
+            return;
+        }
         user.populate('subscription');
 
         let loans = await Loan.find({item: req.body.item});
@@ -41,7 +46,7 @@ router.post('/', verifyToken, async (req, res) => {
             item: req.body.item,
             user: req.body.user,
             start_date: req.body.start_date,
-            end_date: req.body.end_date
+            end_date: req.body.end_date || null,
         });
         await loan.save();
 
@@ -52,11 +57,11 @@ router.post('/', verifyToken, async (req, res) => {
         await item.save();
         item.populate('state');
 
-        loans = await Loan.find({ item: item._id });
+        loans = await Loan.find({ user: req.body.user }).populate('item');
 
         res.json({ loans, item });
     } catch (error) {
-        res.status(400).json({ error: error });
+        res.status(400).json({ error: error.message || 'An error occurred while processing your request' });
     }
 });
 

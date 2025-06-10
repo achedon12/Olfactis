@@ -44,8 +44,8 @@ router.post('/login', async (req, res) => {
             await user.save();
             user.populate('subscription');
 
-            const loans = await Loan.find({ user: user._id });
-            const bookings = await Booking.find({ user: user._id });
+            const loans = await Loan.find({ user: user._id }).populate('item');
+            const bookings = await Booking.find({ user: user._id }).populate('item');
             res.status(200).json({ token, user, loans, bookings });
         } else {
             res.status(401).json({ message: 'Invalid password' });
@@ -84,7 +84,7 @@ router.post('/reset-password', async (req, res) => {
         user.password = await bcrypt.hash(newPassword, 10);
         await user.save();
 
-        await sendMail(user.email, 'Password Reset', 'reset_password.html', { newPassword });
+        await sendMail(user.email, 'Password Reset', 'reset_password.html', { newPassword, firstname: user.firstname });
 
         res.status(200).json({ message: 'New password has been sent to your email' });
     } catch (error) {

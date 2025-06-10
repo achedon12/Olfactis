@@ -8,12 +8,16 @@ const ItemCard = ({ item }) => {
         navigate(`/item/${item._id}?fromCatalog=true`);
     };
 
+    if (!item) {
+        return <div className="w-full h-full bg-white px-4 py-6 flex justify-center items-center">Loading...</div>;
+    }
+
     return (
         <div className="w-full h-full bg-white px-4 py-6 flex flex-col justify-between items-center cursor-pointer" onClick={handleCardClick}>
             <div>
                 <div className={'flex items-center justify-between mb-4'}>
                     <h2 className={'text-[.6rem] sm:text-sm '}>{item.name}</h2>
-                    <p className={'text-[.5rem] sm:text-xs text-quaternary'}>{item.category.name}</p>
+                    {item.category && (<p className={'text-[.5rem] sm:text-xs text-quaternary'}>{item.category.name}</p>)}
                 </div>
                 <p className={'text-[.5rem] sm:text-xs'}>{item.description}</p>
             </div>

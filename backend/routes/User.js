@@ -10,10 +10,41 @@ router.post('/create', verifyToken, async (req, res) => {
     try {
         const newUser = new User(req.body);
         newUser.password = await bcrypt.hash(req.body.password, 10);
+        newUser.verification_token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         const userRegistered = await newUser.save();
         res.status(201).json(userRegistered);
 
-        await sendMail(req.body.email, 'Account verification', 'registration.html', {token: newUser.verification_token, email: req.body.email, firstname: req.body.firstname, verification_link: process.env.APP_URL + '/api/auth/verify/' + newUser.verification_token});
+        await sendMail(req.body.email, 'Account verification', 'registration.html', {
+            token: newUser.verification_token,
+            email: req.body.email,
+            firstname: req.body.firstname,
+            verification_link: process.env.APP_URL + '/api/auth/verify/' + newUser.verification_token
+        });
+    } catch (error) {
+        res.status(400).json({message: error.message});
+    }
+});
+
+router.post('/resendVerificationEmail', verifyToken, async (req, res) => {
+    try {
+        const user = await User.findOne({email: req.body.email});
+
+        if (!user) {
+            return res.status(404).json({message: 'User not found'});
+        }
+        if (user.verified_at) {
+            return res.status(400).json({message: 'User already verified'});
+        }
+
+        user.verification_token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        await user.save();
+
+        await sendMail(user.email, 'Account verification', 'registration.html', {
+            token: user.verification_token,
+            email: user.email,
+            firstname: user.firstname,
+            verification_link: process.env.APP_URL + '/api/auth/verify/' + user.verification_token
+        });
     } catch (error) {
         res.status(400).json({message: error.message});
     }

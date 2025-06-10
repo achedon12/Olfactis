@@ -1,7 +1,7 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {AuthProvider} from './providers/AuthProvider';
 import {ProtectedRoute} from "./components";
-import {Home, Layout, Login, Catalog, NotFound, Items, UpdateItem, ItemDetail} from "./pages";
+import {Home, Layout, Login, Catalog, NotFound, Items, UpdateItem, ItemDetail, Profile} from "./pages";
 
 const App = () => (
     <AuthProvider>
@@ -11,6 +11,7 @@ const App = () => (
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<ProtectedRoute><Home/></ProtectedRoute>}/>
                     <Route path="/catalog" element={<ProtectedRoute><Catalog/></ProtectedRoute>}/>
+                    <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
 
                     {/* For the admin */}
                     <Route path="/items" element={<ProtectedRoute><Items /></ProtectedRoute>} />
