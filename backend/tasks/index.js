@@ -1,3 +1,9 @@
-const reminder = require('./Reminder');
+const cron = require('node-cron');
+const sendReturnReminder = require('./Reminder');
 
-reminder();
+
+cron.schedule('0 8 1 * *', async () => {
+    await sendReturnReminder();
+}, {
+    timezone: "Europe/Paris"
+});
