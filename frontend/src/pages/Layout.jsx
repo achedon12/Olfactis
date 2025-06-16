@@ -1,74 +1,66 @@
-import { useState, useEffect, useRef, useContext } from 'react';
-import { Outlet, NavLink } from "react-router-dom";
-import { User } from "@phosphor-icons/react";
-import { AuthContext } from '../providers/AuthProvider';
+import {useContext} from 'react';
+import {Outlet, NavLink} from "react-router-dom";
+import {AuthContext} from '../providers/AuthProvider';
 
 const Layout = () => {
-    const [dropdownVisible, setDropdownVisible] = useState(false);
-    const dropdownRef = useRef(null);
-    const { logout } = useContext(AuthContext);
-
-    const toggleDropdown = () => {
-        setDropdownVisible(!dropdownVisible);
-    };
+    const {logout} = useContext(AuthContext);
 
     const handleLogout = () => {
         logout();
     };
 
-    const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setDropdownVisible(false);
-        }
-    };
-
-    useEffect(() => {
-        if (dropdownVisible) {
-            document.addEventListener('mousedown', handleClickOutside);
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [dropdownVisible]);
-
     return (
         <>
-            <nav className={'bg-tertiary w-full h-16 border-b-1 border-primary flex items-center justify-between px-8'}>
-                <ul className={'flex space-x-2 md:space-x-8'}>
-                    <li className={'text-base md:text-lg'}>
-                        <NavLink to="/">
-                            <img src={'/olfactis.png'} alt={'logo'} className={'h-8'} />
-                        </NavLink>
-                    </li>
-                    <li className={'text-base md:text-lg'}>
-                        <NavLink to="/catalog" className={({ isActive }) => isActive ? 'text-quaternary' : 'text-white'}>
-                            Catalog
-                        </NavLink>
-                    </li>
-                    <li className={'text-base md:text-lg'}>
-                        <NavLink to="/items" className={({ isActive }) => isActive ? 'text-quaternary' : 'text-white'}>
-                            Items
-                        </NavLink>
-                    </li>
-                </ul>
-                <div className={'relative'} ref={dropdownRef}>
-                    <User size={24} className={'text-primary cursor-pointer'} onClick={toggleDropdown} />
-                    {dropdownVisible && (
-                        <div className={'absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10'}>
-                            <NavLink to="/profile" className={'block px-4 py-2 text-text-color hover:bg-primary'}>View profile</NavLink>
-                            {/*<NavLink to="/myBookings" className={'block px-4 py-2 text-text-color hover:bg-primary'}>My bookings</NavLink>*/}
-                            <button onClick={handleLogout} className={'block w-full text-left px-4 py-2 text-text-color hover:bg-primary cursor-pointer'}>
-                                Logout
-                            </button>
+            <nav className="navbar bg-tertiary shadow-sm">
+                <div className="flex-1 flex">
+                    <NavLink to="/" className={"flex"}>
+                        <img src={'/olfactis.png'} alt={'logo'} className='w-10'/>
+                        <a className="btn btn-ghost text-xl text-white">Olfactis</a>
+                    </NavLink>
+                </div>
+                <div className="flex-none">
+                    <ul className="menu menu-horizontal px-1">
+                        <li>
+                            <NavLink to="/catalog"
+                                     className={({isActive}) => isActive ? 'text-quaternary' : 'text-white'}>
+                                Catalog
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/items"
+                                     className={({isActive}) => isActive ? 'text-quaternary' : 'text-white'}>
+                                Items
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/bookings"
+                                     className={({isActive}) => isActive ? 'text-quaternary' : 'text-white'}>
+                                Bookings
+                            </NavLink>
+                        </li>
+                    </ul>
+
+                    <div className="dropdown dropdown-end">
+                        <div tabIndex="0" role="button" className="btn btn-ghost btn-circle avatar">
+                            <div className="w-10 rounded-full">
+                                <img
+                                    alt="Tailwind CSS Navbar component"
+                                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/>
+                            </div>
                         </div>
-                    )}
+                        <ul
+                            tabIndex="0"
+                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                            <li><NavLink to="/profile">Profile</NavLink>
+                            </li>
+                            <li><a onClick={handleLogout}>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </nav>
 
-            <Outlet />
+            <Outlet/>
         </>
     );
 };

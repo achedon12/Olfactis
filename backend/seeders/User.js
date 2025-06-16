@@ -23,6 +23,19 @@ const seedUsers = async () => {
     adminUser.password = await bcrypt.hash('admin', 10);
     await adminUser.save();
 
+    // common user
+    const commonUser = new User({
+        firstname: 'dev',
+        lastname: 'dev',
+        email: 'dev@gmail.com',
+        password: 'dev',
+        // admin subscription where name = admin
+        subscription: subscriptions.find(sub => sub.name === 'Premium')._id
+    });
+
+    commonUser.password = await bcrypt.hash('dev', 10);
+    await commonUser.save();
+
     // basic users
     for (let i = 0; i < NUMBER_OF_USERS; i++) {
         const user = new User({

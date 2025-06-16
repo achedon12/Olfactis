@@ -10,4 +10,6 @@ import Items from "./items/Items.jsx";
 import UpdateItem from "./items/UpdateItem.jsx";
 import ItemDetail from "./items/ItemDetail.jsx";
 
-export { Layout, NotFound, Home, Login, Catalog, Items, UpdateItem, ItemDetail, Profile };
+import Bookings from "./bookings/Bookings.jsx";
+
+export { Layout, NotFound, Home, Login, Catalog, Items, UpdateItem, ItemDetail, Profile, Bookings };

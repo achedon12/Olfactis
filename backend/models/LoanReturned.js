@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const BookingSchema = new mongoose.Schema({
+const LoanReturnedSchema = new mongoose.Schema({
     item: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Item',
@@ -17,7 +17,7 @@ const BookingSchema = new mongoose.Schema({
     },
     end_date: {
         type: Date,
-        required: true
+        required: false
     },
     created_at: {
         type: Date,
@@ -26,11 +26,7 @@ const BookingSchema = new mongoose.Schema({
     updated_at: {
         type: Date,
         default: Date.now
-    },
-    deleted: {
-        type: Boolean,
-        default: false
     }
 });
 
-module.exports = mongoose.model('Booking', BookingSchema);
+module.exports = mongoose.model('LoanReturned', LoanReturnedSchema);

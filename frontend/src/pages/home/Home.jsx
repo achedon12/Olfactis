@@ -4,7 +4,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     return (
-        <div className={'w-full h-[calc(100vh-4rem)] flex flex-col'}>
+        <div className={'w-full h-[calc(100vh-5rem)] flex flex-col'}>
             <section className={"bg-tertiary w-full h-2/3 flex justify-center items-center flex-col md:flex-row"}>
                 <h1 className={'text-white text-[4rem] sm:text-[6rem] lg:text-[8rem] tracking-widest z-50'}>Olfactis</h1>
                 <img src={'/olfactis.svg'} alt={'logo'} className={'absolute md:relative z-10 h-1/3 sm:h-1/2 md:h-2/3'} />

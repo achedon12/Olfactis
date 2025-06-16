@@ -15,12 +15,21 @@ router.get('/', verifyToken, async (req, res) => {
     }
 });
 
+router.get('/list', verifyToken, async (req, res) => {
+    try {
+        const bookings = await Booking.find().populate('item').populate('user');
+        res.json(bookings);
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
+});
+
 router.get('/:id', verifyToken, async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.id).populate('item').populate('user');
         res.json(booking);
     } catch (error) {
-        res.status(400).json({error: error});
+        res.status(400).json({ error: error });
     }
 });
 
@@ -85,8 +94,11 @@ router.put('/:id', verifyToken, async (req, res) => {
 
 router.delete('/:id', verifyToken, async (req, res) => {
     try {
-        await Booking.findByIdAndDelete(req.params.id);
-        res.json({message: 'Booking deleted'});
+        const booking = await Booking.findById(req.params.id);
+        if (!booking) return res.status(404).json({error: 'Booking not found'});
+        booking.deleted = true;
+        await booking.save();
+        res.json({message: 'Booking deleted successfully'});
     } catch (error) {
         res.status(400).json({error: error});
     }

@@ -65,16 +65,15 @@ router.put('/update/:id', verifyToken, async (req, res) => {
     }
 });
 
-router.delete('/delete/:id', verifyToken, async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
     try {
-        const item = await Item.findByIdAndDelete(req.params.id);
+        const item = await Item.findById(req.params.id);
 
-        if (!item) {
-            return res.status(404).json({message: 'item not found'});
-        }
+        if (!item) return res.status(404).json({message: 'item not found'});
 
-        res.status(200).json({message: 'item deleted'});
-
+        item.deleted = true;
+        await item.save();
+        res.status(200).json({message: 'item deleted successfully'});
     } catch (error) {
         res.status(400).json({message: error.message});
     }
