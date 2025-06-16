@@ -7,141 +7,159 @@ const seedItems = async () => {
         // Distillation Equipment
         {
             name: 'Copper Alembic',
-            description: '/items/copper_alembic.png',
+            description: 'A traditional alembic used for distilling essential oils and plant extracts.',
+            picture: '71rzxQR5zZS.jpg',
             reference: 'AL-001',
-            category: (await Category.findOne({name: 'Distillation'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Distillation' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'Glass Distillation Column',
-            description: '/items/glass_distillation_olumn.png',
+            description: 'A column used for separating different volatile components in fragrances.',
+            picture: 's-l1200.jpg',
             reference: 'DC-001',
-            category: (await Category.findOne({name: 'Distillation'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Distillation' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
 
         // Extraction Equipment
         {
             name: 'Soxhlet Extractor',
-            description: '/items/soxhlet_extractor.png',
+            description: 'An extractor used for obtaining essential oils through solvent extraction.',
+            picture: 'Y353-1000Wx1000H.jpeg',
             reference: 'SE-001',
-            category: (await Category.findOne({name: 'Extraction'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Extraction' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'Cold Press Extractor',
-            description: '/items/cold_press_extractor.png',
+            description: 'Used to extract essential oils from citrus peels through mechanical pressing.',
+            picture: '85MM-COLD-PRESS-MACHINE-PERSSEH-01.jpg',
             reference: 'CP-001',
-            category: (await Category.findOne({name: 'Extraction'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Extraction' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'Enfleurage Frame',
-            description: '/items/enfleurage_frame.png',
+            description: 'A traditional tool for capturing delicate floral scents using fat absorption.',
+            picture: '135248478_10159215592843854_2149583267344232241_n.jpg',
             reference: 'EF-001',
-            category: (await Category.findOne({name: 'Extraction'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Extraction' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
 
         // Analysis Equipment
         {
             name: 'Gas Chromatograph',
-            description: '/items/gas_chromatograph.png',
+            description: 'A scientific instrument used to analyze the chemical composition of perfumes.',
+            picture: '2587-202206161627434666.jpg',
             reference: 'GC-001',
-            category: (await Category.findOne({name: 'Analysis'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Analysis' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'Mass Spectrometer',
-            description: '/items/mass_spectrometer.png',
+            description: 'Used to precisely identify the odorant molecules in a fragrance.',
+            picture: 'Mass-Spectrometry-Instruments-6.jpg',
             reference: 'MS-001',
-            category: (await Category.findOne({name: 'Analysis'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Analysis' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'pH Meter',
-            description: '/items/pH_meter.png',
+            description: 'A digital instrument used to measure the pH of liquid solutions in formulations.',
+            picture: '2587-202410241343569022.jpg',
             reference: 'PH-001',
-            category: (await Category.findOne({name: 'Analysis'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Analysis' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
 
         // Measurement Tools
         {
             name: 'Precision Scale',
-            description: '/items/precision_scale.png',
+            description: 'A high-accuracy scale for weighing raw materials in perfume formulation.',
+            picture: 'balance-de-precision-prz-15493-1.png',
             reference: 'PS-001',
-            category: (await Category.findOne({name: 'Measurement'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Measurement' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'Hydrometer',
-            description: '/items/hydrometer.png',
+            description: 'An instrument used to measure the alcohol concentration in perfume mixtures.',
+            picture: 'cole-parmer-0829815-0-890-1-000-specific-gravity-hydrometer-for-liquids-lighter-than-water-0829815.jpg',
             reference: 'HY-001',
-            category: (await Category.findOne({name: 'Measurement'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Measurement' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
 
         // Mixing & Formulation Equipment
         {
             name: 'Magnetic Stirrer',
-            description: '/items/magnetic_stirrer.png',
+            description: 'A device used to mix liquid solutions homogeneously in perfume production.',
+            picture: 'LN36-1-01-1000Wx1000H.jpeg',
             reference: 'MS-002',
-            category: (await Category.findOne({name: 'Mixing'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Mixing' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'Ultrasonic Homogenizer',
-            description: '/items/ultrasonic_homogenizer.png',
+            description: 'Used to break down and mix fragrance molecules evenly in a solution.',
+            picture: '61+7ojLXY1L._AC_UF1000,1000_QL80_.jpg',
             reference: 'UH-001',
-            category: (await Category.findOne({name: 'Mixing'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Mixing' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
 
         // Glassware & Containers
         {
             name: 'Graduated Cylinders Set',
-            description: '/items/graduated_cylinders Set.png',
+            description: 'A set of glass measuring cylinders for precise liquid volume measurement.',
+            picture: '71gyyY5MixL.jpg',
             reference: 'GCY-001',
-            category: (await Category.findOne({name: 'Glassware'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Glassware' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'Pipette Set',
-            description: '/items/pipette_set.png',
+            description: 'A set of precision pipettes used for measuring and transferring liquid fragrance components.',
+            picture: 'F214462_p.eps-650.png',
             reference: 'PIP-001',
-            category: (await Category.findOne({name: 'Glassware'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Glassware' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'Erlenmeyer Flask Set',
-            description: '/items/erlenmeyer_flask_set.png',
+            description: 'A set of flasks used for mixing and storing liquid perfume formulations.',
+            picture: '4980-PACK_A.jpg-650.png',
             reference: 'EF-002',
-            category: (await Category.findOne({name: 'Glassware'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Glassware' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
 
         // Testing & Packaging Equipment
         {
             name: 'Fragrance Testing Strips',
-            description: '/items/fragrance_testing_strips.png',
+            description: 'Absorbent paper strips used for testing and evaluating perfume compositions.',
+            picture: 'EQFOSTRIPUS983-fragrance-test-strip.jpg',
             reference: 'FTS-001',
-            category: (await Category.findOne({name: 'Testing'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Testing' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'Perfume Bottling Machine',
-            description: '/items/perfume_bottling_machine.png',
+            description: 'A semi-automatic machine for filling perfume bottles with precise measurements.',
+            picture: 'Vacuum_Filler-1.png',
             reference: 'PBM-001',
-            category: (await Category.findOne({name: 'Packaging'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Packaging' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         },
         {
             name: 'Bottle Capping Machine',
-            description: '/items/bottle_capping_machine.png',
+            description: 'A machine used to securely seal perfume bottles with caps or spray heads.',
+            picture: '51ukTEAWZaL.jpg',
             reference: 'BCM-001',
-            category: (await Category.findOne({name: 'Packaging'})),
-            state: (await State.findOne({name: 'AVAILABLE'}))
+            category: (await Category.findOne({ name: 'Packaging' })),
+            state: (await State.findOne({ name: 'AVAILABLE' }))
         }
     ];
 
