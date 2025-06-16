@@ -48,7 +48,11 @@ const UserSchema = new mongoose.Schema({
     deleted: {
         type: Boolean,
         default: false
-    }
+    },
+    newsletter: {
+        type: Boolean,
+        default: false
+    },
 });
 
 module.exports = mongoose.model('User', UserSchema);

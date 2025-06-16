@@ -17,7 +17,8 @@ const seedUsers = async () => {
         email: 'admin@gmail.com',
         password: 'admin',
         // admin subscription where name = admin
-        subscription: subscriptions.find(sub => sub.name === 'admin')._id
+        subscription: subscriptions.find(sub => sub.name === 'admin')._id,
+        newsletter: true
     });
 
     adminUser.password = await bcrypt.hash('admin', 10);
@@ -30,7 +31,8 @@ const seedUsers = async () => {
         email: 'dev@gmail.com',
         password: 'dev',
         // admin subscription where name = admin
-        subscription: subscriptions.find(sub => sub.name === 'Premium')._id
+        subscription: subscriptions.find(sub => sub.name === 'Premium')._id,
+        newsletter: true
     });
 
     commonUser.password = await bcrypt.hash('dev', 10);
@@ -43,7 +45,8 @@ const seedUsers = async () => {
             lastname: faker.person.lastName(),
             email: faker.internet.email(),
             password: 'password',
-            subscription: [subscriptions[Math.floor(Math.random() * subscriptions.length)]._id]
+            subscription: [subscriptions[Math.floor(Math.random() * subscriptions.length)]._id],
+            newsletter: Math.random() < 0.5
         });
         user.password = await bcrypt.hash(user.password, 10);
 
