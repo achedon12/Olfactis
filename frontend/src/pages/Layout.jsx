@@ -9,13 +9,15 @@ const Layout = () => {
         logout();
     };
 
+    const userIsAdmin = JSON.parse(localStorage.getItem('user'))?.firstname === 'admin';
+
     return (
         <>
-            <nav className="navbar bg-tertiary shadow-sm">
-                <div className="flex-1 flex">
-                    <NavLink to="/" className={"flex"}>
-                        <img src={'/olfactis.png'} alt={'logo'} className='w-10'/>
-                        <a className="btn btn-ghost text-xl text-white">Olfactis</a>
+            <nav className="navbar bg-tertiary shadow-sm px-10">
+                <div className="flex-1">
+                    <NavLink to="/" className="flex text-xl text-white hover items-center">
+                        <img src="/olfactis.png" alt="logo" className="h-10 mr-2 fill-white"/>
+                        <a className="text-xl md:text-2xl text-white font-bold">Olfactis</a>
                     </NavLink>
                 </div>
                 <div className="flex-none">
@@ -26,21 +28,31 @@ const Layout = () => {
                                 Catalog
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink to="/items"
-                                     className={({isActive}) => isActive ? 'text-quaternary' : 'text-white'}>
-                                Items
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/bookings"
-                                     className={({isActive}) => isActive ? 'text-quaternary' : 'text-white'}>
-                                Bookings
-                            </NavLink>
-                        </li>
+                        {userIsAdmin && (
+                            <>
+                                <li>
+                                    <NavLink to="/items"
+                                             className={({isActive}) => isActive ? 'text-quaternary' : 'text-white'}>
+                                        Items
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/bookings"
+                                             className={({isActive}) => isActive ? 'text-quaternary' : 'text-white'}>
+                                        Bookings
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/users"
+                                             className={({isActive}) => isActive ? 'text-quaternary' : 'text-white'}>
+                                        Users
+                                    </NavLink>
+                                </li>
+                            </>
+                        )}
                     </ul>
 
-                    <div className="dropdown dropdown-end">
+                    <div className="dropdown dropdown-end ml-6">
                         <div tabIndex="0" role="button" className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
                                 <img

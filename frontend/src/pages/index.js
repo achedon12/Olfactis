@@ -12,4 +12,6 @@ import ItemDetail from "./items/ItemDetail.jsx";
 
 import Bookings from "./bookings/Bookings.jsx";
 
-export { Layout, NotFound, Home, Login, Catalog, Items, UpdateItem, ItemDetail, Profile, Bookings };
+import Users from "./users/Users.jsx";
+
+export { Layout, NotFound, Home, Login, Catalog, Items, UpdateItem, ItemDetail, Profile, Bookings, Users };
