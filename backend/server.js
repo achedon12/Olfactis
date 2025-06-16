@@ -19,5 +19,6 @@ app.use('/api/booking', require('./routes/Booking'));
 app.use('/api/loan', require('./routes/Loan'));
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
 });
+
+require('./tasks');

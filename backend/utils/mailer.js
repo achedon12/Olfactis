@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer');
-const smtpTransport = require('nodemailer-smtp-transport');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
+const { twig } = require('twig');
 
 dotenv.config();
 
@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
     port: 1030,
 });
 
-const sendMail = async (to, subject, templateFile, replacements) => {
+const sendMail = async (to, subject, templateFile, replacements, useTwig = false) => {
     const templatePath = path.join(__dirname, '../templates/emails', templateFile);
     fs.readFile(templatePath, 'utf8', async (err, data) => {
         if (err) {
@@ -19,11 +19,16 @@ const sendMail = async (to, subject, templateFile, replacements) => {
             return;
         }
 
-        let html = data;
-        for (const key in replacements) {
-            html = html.replace(new RegExp(`{{${key}}}`, 'g'), replacements[key]);
+        let html;
+        if (useTwig) {
+            html = twig({ data }).render(replacements)
+        } else {
+            html = data;
+            for (const key in replacements) {
+                html = html.replace(new RegExp(`{{${key}}}`, 'g'), replacements[key]);
+            }
+            html = html.replace(/{{now}}/g, new Date().getFullYear());
         }
-        html = html.replace(/{{now}}/g, new Date().getFullYear());
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
