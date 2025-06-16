@@ -15,8 +15,8 @@ const ItemCard = ({item}) => {
 
     return (
         <div className="card bg-base-100 w-75 shadow-sm" onClick={handleCardClick}>
-            <figure>
-                <img src={`${config.baseUrl}/items/`+item.picture} alt={item.name} className="w-full h-30 object-contain" />
+            <figure className={"bg-tertiary"}>
+                <img src={`${config.baseUrl}`+item.picture} alt={item.name} className="w-full h-30 object-contain" />
             </figure>
             <div className="card-body">
                 <h2 className="card-title">{item.name}</h2>
