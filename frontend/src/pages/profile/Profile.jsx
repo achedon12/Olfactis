@@ -15,10 +15,14 @@ const Profile = () => {
     const [activeTab, setActiveTab] = useState('current'); // 'current', 'bookings',  'history',
     const [form, setForm] = useState();
     const [errors, setErrors] = useState({});
+    const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+    const [selectedSubscription, setSelectedSubscription] = useState(null);
+    const [subscriptions, setSubscriptions] = useState([]);
 
     useEffect(() => {
         const loadData = async () => {
-            fetchUser()
+            fetchUser();
+            fetchSubscritions();
             setLoading(true);
             setLoans(JSON.parse(localStorage.getItem('loans')) || []);
             setBookings(JSON.parse(localStorage.getItem('bookings')) || []);
@@ -46,27 +50,51 @@ const Profile = () => {
         }
     }, [user]);
 
+    const fetchSubscritions = async () => {
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/subscription`, {
+                method: 'GET',
+                headers: config.headers
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to fetch subscriptions');
+            }
+
+            const data = await response.json();
+            setSubscriptions(data);
+        } catch (error) {
+            toast.error(`Error fetching subscriptions: ${error.message}`);
+        }
+    };
+
     const fetchUser = async () => {
-        const localUser = JSON.parse(localStorage.getItem('user') || '{}');
-        if (!localUser || !localUser._id) {
-            toast.error('User not found. Please log in again.');
+        try {
+            const localUser = JSON.parse(localStorage.getItem('user') || '{}');
+            if (!localUser || !localUser._id) {
+                toast.error('User not found. Please log in again.');
+                navigate('/login');
+                return;
+            }
+            const response = await fetch(`${config.apiBaseUrl}/user/${localUser._id}`, {
+                method: 'GET',
+                headers: config.headers
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to fetch user data');
+            }
+
+            const data = await response.json();
+            setUser(data);
+            localStorage.setItem('user', JSON.stringify(data));
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            toast.error(`Error fetching user data: ${error.message}`);
             navigate('/login');
-            return;
         }
-        const response = await fetch(`${config.apiBaseUrl}/user/${localUser._id}`, {
-            method: 'GET',
-            headers: config.headers
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            toast.error(`Error fetching user data: ${errorData.message || 'Unknown error'}`);
-            return null;
-        }
-
-        const data = await response.json();
-        setUser(data);
-        localStorage.setItem('user', JSON.stringify(data));
     }
 
     const validatePassword = (pwd) => {
@@ -158,9 +186,29 @@ const Profile = () => {
         return endDate && endDate < today;
     });
 
-    const handleUpgradeSubscription = () => {
+    const handleUpgradeSubscription = async () => {
         //TODO: Simulate an upgrade process
-        toast.info('Upgrade process initiated. Please contact support for assistance.');
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/user/update/${user._id}`, {
+                method: 'PUT',
+                headers: config.headers,
+                body: JSON.stringify({
+                    ...user,
+                    subscription: {name: selectedSubscription}
+                })
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message || 'Erreur lors du changement d\'abonnement');
+            setUser(data);
+            localStorage.setItem('user', JSON.stringify(data));
+            toast.info('Abonnement mis à jour !');
+            setShowSubscriptionModal(false);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            toast.info('Upgrade process initiated. Please contact support for assistance.');
+        }
+
     }
 
     const handleResetPassword = async () => {
@@ -251,7 +299,7 @@ const Profile = () => {
                         <div
                             className="inline-flex items-center group transition-all duration-300 ml-4 hover:cursor-pointer">
                             <button
-                                onClick={handleUpgradeSubscription}
+                                onClick={() => setShowSubscriptionModal(true)}
                                 className="flex items-center bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-full px-4 py-2 transition-all duration-300 w-10 group-hover:w-48 overflow-hidden shadow-lg"
                                 style={{minWidth: '2.5rem'}}
                             >
@@ -613,6 +661,47 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
+            {showSubscriptionModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                    <div className="bg-white rounded-lg p-6 shadow-lg w-full max-w-sm">
+                        <h2 className="text-lg font-bold mb-4">Choisir un abonnement</h2>
+                        <ul className="space-y-2 mb-4">
+                            {subscriptions.map(sub => (
+                                <li key={sub.name}>
+                                    <label className="flex items-center space-x-2">
+                                        <input
+                                            type="radio"
+                                            name="subscription"
+                                            value={sub.name}
+                                            checked={user.subscription.name === sub.name}
+                                            onChange={() => setSelectedSubscription(sub.name)}
+                                        />
+                                        <span>{sub.name} - {sub.price} €</span>
+                                        <span>{sub.description}</span>
+                                        <span>{sub.duration} month(s)</span>
+                                        <span>{sub.loan_limit} loan/month</span>
+                                    </label>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="flex justify-end space-x-2">
+                            <button
+                                onClick={() => setShowSubscriptionModal(false)}
+                                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                            >
+                                Annuler
+                            </button>
+                            <button
+                                onClick={handleUpgradeSubscription}
+                                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                disabled={!selectedSubscription}
+                            >
+                                Valider
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             <ToastContainer/>
         </div>
     );
