@@ -18,13 +18,21 @@ const Profile = () => {
 
     useEffect(() => {
         const loadData = async () => {
+            fetchUser()
             setLoading(true);
-            setUser(JSON.parse(localStorage.getItem('user')) || null);
             setLoans(JSON.parse(localStorage.getItem('loans')) || []);
             setBookings(JSON.parse(localStorage.getItem('bookings')) || []);
             setLoading(false);
         };
         loadData();
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                loadData();
+            }
+        }
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
     }, []);
 
     useEffect(() => {
@@ -36,7 +44,30 @@ const Profile = () => {
                 newPassword: ''
             });
         }
-    }, [user])
+    }, [user]);
+
+    const fetchUser = async () => {
+        const localUser = JSON.parse(localStorage.getItem('user') || '{}');
+        if (!localUser || !localUser._id) {
+            toast.error('User not found. Please log in again.');
+            navigate('/login');
+            return;
+        }
+        const response = await fetch(`${config.apiBaseUrl}/user/${localUser._id}`, {
+            method: 'GET',
+            headers: config.headers
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            toast.error(`Error fetching user data: ${errorData.message || 'Unknown error'}`);
+            return null;
+        }
+
+        const data = await response.json();
+        setUser(data);
+        localStorage.setItem('user', JSON.stringify(data));
+    }
 
     const validatePassword = (pwd) => {
         const errors = [];
@@ -54,7 +85,7 @@ const Profile = () => {
         setForm({...form, [e.target.name]: e.target.value});
     };
 
-    const handleSave = e => {
+    const handleSave = async e => {
         e.preventDefault();
         const newErrors = {};
         if (!form.firstname) newErrors.firstname = 'Firstname required';
@@ -65,18 +96,40 @@ const Profile = () => {
         }
         setErrors(newErrors);
         if (Object.keys(newErrors).length) return;
+        setUser({
+            ...user,
+            firstname: form.firstname,
+            lastname: form.lastname,
+            email: form.email,
+            newPassword: form.newPassword ? form.newPassword : user.password, // Keep old password if not changed
+        })
 
-        setTimeout(() => {
-            setUser({
-                ...user,
-                firstname: form.firstname,
-                lastname: form.lastname,
-                email: form.email
-            });
-            //TODO: update user
-            setEditing(false);
-            toast.info('Profile updated successfully!');
-        }, 500);
+        setTimeout(async () => {
+            try {
+                const response = await fetch(`${config.apiBaseUrl}/user/update/${user._id}`, {
+                    method: 'PUT',
+                    headers: config.headers,
+                    body: JSON.stringify({
+                        ...user,
+                        firstname: form.firstname,
+                        lastname: form.lastname,
+                    })
+                });
+
+                const data = response.json();
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to update profile');
+                }
+
+                localStorage.setItem('user', JSON.stringify(data));
+            } catch (error) {
+                toast.error(`Error updating profile: ${error.message}`);
+                return;
+            } finally {
+                setEditing(false);
+                toast.info('Profile updated successfully!');
+            }
+        }, 1000);
     };
 
     const handleDelete = () => {
@@ -153,6 +206,28 @@ const Profile = () => {
         }
     };
 
+    const handleUnsubscribeNewsletter = async (state = true) => {
+        console.log('Unsubscribe from newsletter:', state);
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/user/${user._id}/newsletter`, {
+                method: 'PUT',
+                headers: config.headers,
+                body: JSON.stringify({
+                    newsletter: state
+                })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                toast.info(`You have successfully ${state ? 'subscribed to' : 'unsubscribed from'} the newsletter!`);
+                setUser(prev => ({...prev, newsletter: state}));
+            } else {
+                throw new Error(data.message || 'Failed to update newsletter preference');
+            }
+        } catch (error) {
+            toast.error(`Error unsubscribing from newsletter: ${error.message}`);
+        }
+    };
+
     if (loading) {
         return <Loader/>;
     }
@@ -169,7 +244,7 @@ const Profile = () => {
     return (
         <div className="max-w-6xl mx-auto px-4 py-8">
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold text-gray-800">User Profile</h1>
+                <h1 className="text-3xl font-bold text-gray-800">{user.firstname} {user.lastname}'s Profile</h1>
                 <div className="text-sm text-gray-500">
                     Subscription: <span className="font-medium capitalize">{user.subscription.name}</span>
                     {user?.subscription?.name !== 'admin' && (
@@ -328,6 +403,21 @@ const Profile = () => {
                                             Delete Account
                                         </button>
                                     </div>
+                                    {user.newsletter ? (
+                                        <button
+                                            onClick={() => handleUnsubscribeNewsletter(false)}
+                                            className="hover:cursor-pointer mt-4 px-4 py-2 bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition"
+                                        >
+                                            Unsubscribe from Newsletter
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={() => handleUnsubscribeNewsletter(true)}
+                                            className="hover:cursor-pointer mt-4 px-4 py-2 bg-green-100 text-green-600 rounded-md hover:bg-green-200 transition"
+                                        >
+                                            Subscribe to Newsletter
+                                        </button>
+                                    )}
                                 </>
                             )}
                         </div>
@@ -382,7 +472,7 @@ const Profile = () => {
                                             <p className="text-gray-500">You don't have any current reservations.</p>
                                             <button
                                                 className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition hover:cursor-pointer"
-                                                onClick={()=>navigate('/catalog')}>
+                                                onClick={() => navigate('/catalog')}>
                                                 Browse Equipment
                                             </button>
                                         </div>

@@ -60,6 +60,31 @@ router.get('/list', verifyToken, async (req, res) => {
     }
 });
 
+router.put('/:id/newsletter', verifyToken, async (req, res) => {
+    if (!req.body) {
+        return res.status(400).json({message: 'Request body is required'});
+    }
+
+    if (![true, false].includes(req.body.newsletter)) {
+        return res.status(400).json({message: 'Newsletter preference must be true or false'});
+    }
+
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({message: 'User not found'});
+        }
+
+        user.newsletter = req.body.newsletter;
+        const userUpdated = await user.save();
+
+        res.status(200).json(userUpdated);
+    } catch (error) {
+        res.status(400).json({message: error.message});
+    }
+});
+
 router.get('/:id', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
