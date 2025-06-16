@@ -110,7 +110,7 @@ const ItemDetail = () => {
             <div className={'h-2/3 bg-white'}>
                 <div className="flex flex-col lg:flex-row items-center lg:items-start h-full">
                     <div className="w-full lg:w-1/2 mb-4 lg:mb-0 flex justify-center items-center h-full">
-                        <img src={`${config.baseUrl}/items/`+item.picture} alt={item.name} className="max-w-[40%] h-auto object-cover"/>
+                        <img src={`${config.baseUrl}/items/`+item.picture} alt={item.name} className="max-h-[300px] max-w-full object-cover" />
                     </div>
                     <div className="w-full lg:w-1/2 p-8">
                         <h1 className="text-2xl text-quaternary mb-4">{item.name}</h1>
