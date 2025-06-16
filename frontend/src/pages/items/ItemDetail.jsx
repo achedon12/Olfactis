@@ -3,7 +3,7 @@ import {useParams, useLocation, useNavigate} from 'react-router-dom';
 import config from "../../providers/apiConfig.js";
 import {ActionButton, Loader} from "../../components";
 import BookingPopup from "../../components/BookingPopup.jsx";
-import { ToastContainer, toast } from 'react-toastify';
+import {ToastContainer, toast} from 'react-toastify';
 
 const ItemDetail = () => {
     const [item, setItem] = useState(null);
@@ -102,29 +102,21 @@ const ItemDetail = () => {
     };
 
     return (
-        <div className={'w-full h-[calc(100vh-4rem)]'}>
-            <div className={'h-2/3 bg-white'}>
-                <div className="flex flex-col lg:flex-row items-center lg:items-start h-full">
-                    <div className="w-full lg:w-1/2 mb-4 lg:mb-0 flex justify-center items-center h-full">
-                        <img src={`${config.baseUrl}`+item.picture} alt={item.name} className="max-h-[300px] max-w-full object-cover" />
-                    </div>
-                    <div className="w-full lg:w-1/2 p-8">
-                        <h1 className="text-2xl text-quaternary mb-4">{item.name}</h1>
+        <div className={'w-full h-[calc(100vh-5rem)]'}>
+            <div className={'hero bg-white'}>
+                <div className="hero-content flex-col lg:flex-row">
+                    <img src={`${config.baseUrl}`+item.picture} alt={item.name} className="max-h-[20rem] max-w-full object-cover" />
+                    <div>
+                        <h1 className="text-2xl text-quaternary mb-2">{item.name}</h1>
+                        <span className="badge badge-xs badge-warning mb-4">{item.category.name}</span>
                         <p className="mb-4">{item.description}</p>
                         <p className="mb-4"><strong>Reference:</strong> {item.reference}</p>
-                        <p className="mb-4"><strong>Category:</strong> {item.category.name}</p>
-                        <div className={`w-full p-8 bg-secondary text-white`}>
-                            {item.state.name === 'AVAILABLE' && <p>This item is available for loan.</p>}
-                            {item.state.name === 'LOANED' &&
-                                <div>
-                                    <p>This item is currently loaned.</p>
-                                </div>
-                            }
-                            <button
-                                onClick={() => setShowPopup(true)}
-                                className={`${item.state.name === 'AVAILABLE' ? 'bg-quaternary hover:bg-secondary' : 'bg-opposite'} text-white px-4 py-2 text-[.6rem] sm:text-sm transition ease-in duration-200 cursor-pointer mt-10`}>
-                                {item.state.name === 'AVAILABLE' ? 'Loan' : 'Book'}
-                            </button>
+                        <div className="card-actions justify-end">
+                        <button
+                            onClick={() => setShowPopup(true)}
+                            className={`${item.state.name === 'AVAILABLE' ? 'bg-quaternary hover:bg-secondary' : 'bg-opposite'} text-white btn`}>
+                            {item.state.name === 'AVAILABLE' ? 'Loan' : 'Book'}
+                        </button>
                         </div>
                     </div>
                 </div>
