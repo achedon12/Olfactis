@@ -2,8 +2,10 @@ import {useEffect, useState} from 'react';
 import {toast, ToastContainer} from 'react-toastify';
 import config from "../../providers/apiConfig.js";
 import star from '../../assets/star.svg';
+import {useNavigate} from "react-router-dom";
 
 const Profile = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [loans, setLoans] = useState([]);
     const [bookings, setBookings] = useState([]);
@@ -382,7 +384,8 @@ const Profile = () => {
                                         <div className="text-center py-8">
                                             <p className="text-gray-500">You don't have any current reservations.</p>
                                             <button
-                                                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                                                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition hover:cursor-pointer"
+                                                onClick={()=>navigate('/catalog')}>
                                                 Browse Equipment
                                             </button>
                                         </div>
