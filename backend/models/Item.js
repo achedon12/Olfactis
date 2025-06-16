@@ -34,6 +34,10 @@ const ItemSchema = new mongoose.Schema({
     updated_at: {
         type: Date,
         default: Date.now
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 });
 

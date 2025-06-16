@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {toast, ToastContainer} from 'react-toastify';
 import config from "../../providers/apiConfig.js";
 import star from '../../assets/star.svg';
+import {Loader} from "../../components/index.js";
 import {useNavigate} from "react-router-dom";
 
 const Profile = () => {
@@ -153,11 +154,7 @@ const Profile = () => {
     };
 
     if (loading) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-            </div>
-        );
+        return <Loader/>;
     }
 
     if (!user) {
@@ -177,7 +174,7 @@ const Profile = () => {
                     Subscription: <span className="font-medium capitalize">{user.subscription.name}</span>
                     {user?.subscription?.name !== 'admin' && (
                         <div
-                            className="hover:cursor-pointer inline-flex items-center group transition-all duration-300 ml-4 hover:cursor-pointer">
+                            className="inline-flex items-center group transition-all duration-300 ml-4 hover:cursor-pointer">
                             <button
                                 onClick={handleUpgradeSubscription}
                                 className="flex items-center bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-full px-4 py-2 transition-all duration-300 w-10 group-hover:w-48 overflow-hidden shadow-lg"
@@ -197,7 +194,7 @@ const Profile = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-1">
                     <div className="bg-white rounded-xl shadow-md overflow-hidden">
-                        <div className="bg-blue-600 p-4 text-white">
+                        <div className="bg-tertiary p-4 text-white">
                             <h2 className="text-xl font-semibold">Personal Information</h2>
                         </div>
 
@@ -343,7 +340,7 @@ const Profile = () => {
                             <nav className="flex -mb-px">
                                 <button
                                     onClick={() => setActiveTab('current')}
-                                    className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${activeTab === 'current' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+                                    className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${activeTab === 'current' ? 'border-secondary text-quaternary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
                                 >
                                     Current Reservations
                                     {currentLoans.length > 0 && (
@@ -356,7 +353,7 @@ const Profile = () => {
 
                                 <button
                                     onClick={() => setActiveTab('bookings')}
-                                    className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${activeTab === 'bookings' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+                                    className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${activeTab === 'bookings' ? 'border-secondary text-quaternary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
                                 >
                                     Booking History
                                     {bookings.length > 0 && (
@@ -368,7 +365,7 @@ const Profile = () => {
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('history')}
-                                    className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${activeTab === 'history' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+                                    className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${activeTab === 'history' ? 'border-secondary text-quaternary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
                                 >
                                     Reservation History
                                 </button>

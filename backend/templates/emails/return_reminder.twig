@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>Loan Return Reminder</title>
+                <style>
+                    body { font-family: Arial, sans-serif; color: #222; }
+                    h1 { color: #2d6cdf; }
+                    p { margin-bottom: 18px; }
+                    table { border-collapse: collapse; width: 100%; margin-bottom: 24px; }
+                    th, td { border: 1px solid #bbb; padding: 8px 12px; text-align: left; }
+                    th { background: #f0f4fa; }
+                    tr:nth-child(even) { background: #f9f9f9; }
+                </style>
+            </head>
+            <body>
+            <h1>Loan Return Reminder</h1>
+            <p>Here is the list of your items to return on or after <b>{{ today }}</b>:</p>
+            <table>
+                <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Start date</th>
+                    <th>Return date</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for loan in loans %}
+                <tr>
+                    <td>{{ loan.item.name }}</td>
+                    <td>{{ loan.start_date|date('d/m/Y') }}</td>
+                    <td>{{ loan.end_date|date('d/m/Y') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">No items to return.</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <footer style="margin-top: 32px; font-size: 13px; color: #888; text-align: center;">
+                For any questions, contact us at <a href="mailto:contact@olfactis.com">contact@olfactis.com</a>
+            </footer>
+            </body>
+            </html>

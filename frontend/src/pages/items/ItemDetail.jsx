@@ -49,6 +49,7 @@ const ItemDetail = () => {
         toast.info('Processing your loan request...');
 
         let hasDueDate = false;
+        const dueDate = new Date();
         if (JSON.parse(localStorage.getItem('user')).subscription.loan_limit !== -1) {
             const dueDate = new Date();
             hasDueDate = true;

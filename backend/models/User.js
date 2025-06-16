@@ -44,6 +44,10 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Subscription',
         required: true
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 });
 

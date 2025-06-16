@@ -3,7 +3,6 @@ const router = express.Router();
 const verifyToken = require('../middleware/jwt');
 
 const Loan = require('../models/Loan');
-const Booking = require("../models/Booking");
 const Item = require("../models/Item");
 const State = require("../models/State");
 const User = require("../models/User");
@@ -46,7 +45,7 @@ router.post('/', verifyToken, async (req, res) => {
             item: req.body.item,
             user: req.body.user,
             start_date: req.body.start_date,
-            end_date: req.body.end_date || null,
+            end_date: req.body.end_date || new Date(Date.now() + 5 * 30 * 24 * 60 * 60 * 1000)
         });
         await loan.save();
 
