@@ -4,6 +4,7 @@ import config from "../../providers/apiConfig.js";
 import {ActionButton, Loader} from "../../components";
 import BookingPopup from "../../components/BookingPopup.jsx";
 import {ToastContainer, toast} from 'react-toastify';
+import ItemStats from "./ItemsStats";
 
 const ItemDetail = () => {
     const [item, setItem] = useState(null);
@@ -176,7 +177,9 @@ const ItemDetail = () => {
                                 </tbody>
                             </table>)
                         : <p>No loan was found.</p>}
-                </div>)
+                    <ItemStats loans={loans} />
+                </div>
+            )
             }
             <div className={'w-full flex justify-center items-center h-1/3'}>
                 <ActionButton onClick={handleGoBack}>Go back</ActionButton>
