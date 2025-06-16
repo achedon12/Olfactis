@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Newsletter Olfactis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+</head>
+<body style="Margin:0;padding:0;background-color:#EDE0D4;font-family:'Poppins', sans-serif;color:#333;">
+<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color:#EDE0D4;padding:40px 0;">
+    <tr>
+        <td align="center">
+            <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="background:white;border-radius:8px;overflow:hidden;">
+                <tr>
+                    <td style="background-color:#E6CCB2;padding:20px;text-align:center;">
+                        <h1 style="margin:0;font-size:24px;color:#926575;font-weight:700;">
+                            Bonjour {{ user.name }} 👋
+                        </h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:20px;">
+                        <p style="margin:0 0 20px;font-size:16px;line-height:1.5;">
+                            Here is the item of the day selected for you on {{ date }} :
+                        </p>
+                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td align="center">
+                                    <img src="{{ appUrl }}{{ item.picture }}" alt="{{ item.name }}"
+                                         width="300" height="300"
+                                         style="border:1px solid #B08968;border-radius:4px;display:block;margin-bottom:20px;object-fit:cover;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;">
+                                    <h2 style="margin:0;font-size:20px;font-weight:600;color:#B08968;">
+                                        {{ item.name }}
+                                    </h2>
+                                    {% if item.description %}
+                                        <p style="margin:10px 0 0;font-size:14px;line-height:1.4;color:#666;">
+                                            {{ item.description }}
+                                        </p>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color:#DDB892;padding:20px;text-align:center;font-size:12px;color:#333;">
+                        If you have any questions, please contact us at
+                        <a href="mailto:contact@olfactis.com" style="color:#926575;text-decoration:underline;">
+                            contact@olfactis.com
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
