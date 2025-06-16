@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
-@plugin "daisyui" {
-    themes: light --default, dark --prefersdark;
-}
+@plugin "daisyui";
 
 @font-face {
     font-family: "Marcellus";
