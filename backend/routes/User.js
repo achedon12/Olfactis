@@ -52,7 +52,7 @@ router.post('/resendVerificationEmail', verifyToken, async (req, res) => {
 
 router.get('/list', verifyToken, async (req, res) => {
     try {
-        const users = await User.find();
+        const users = await User.find().populate('subscription', 'name').sort({created_at: -1});
         res.status(200).json(users);
 
     } catch (error) {

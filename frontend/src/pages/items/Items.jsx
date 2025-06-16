@@ -17,8 +17,6 @@ const Items = () => {
     const columns = [
         { id: 'name', label: 'Name', minWidth: 170 },
         { id: 'description', label: 'Description', minWidth: 100 },
-        { id: 'picture', label: 'Picture', minWidth: 100 },
-        { id: 'reference', label: 'Reference', minWidth: 100 },
         { id: 'category', label: 'Category', minWidth: 100, accessor: item => item.category.name },
         { id: 'state', label: 'State', minWidth: 100, accessor: item => item.state.name },
     ];
