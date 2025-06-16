@@ -1,7 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import { ActionButton } from "./index.js";
+import {useNavigate} from "react-router-dom";
+import {ActionButton, Loader} from "./index.js";
+import config from "../providers/apiConfig.js";
 
-const ItemCard = ({ item }) => {
+const ItemCard = ({item}) => {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
@@ -9,22 +10,24 @@ const ItemCard = ({ item }) => {
     };
 
     if (!item) {
-        return <div className="w-full h-full bg-white px-4 py-6 flex justify-center items-center">Loading...</div>;
+        return <Loader />;
     }
 
     return (
-        <div className="w-full h-full bg-white px-4 py-6 flex flex-col justify-between items-center cursor-pointer" onClick={handleCardClick}>
-            <div>
-                <div className={'flex items-center justify-between mb-4'}>
-                    <h2 className={'text-[.6rem] sm:text-sm '}>{item.name}</h2>
-                    {item.category && (<p className={'text-[.5rem] sm:text-xs text-quaternary'}>{item.category.name}</p>)}
+        <div className="card bg-base-100 w-75 shadow-sm" onClick={handleCardClick}>
+            <figure>
+                <img src={`${config.baseUrl}/items/`+item.picture} alt={item.name} className="w-full h-30 object-contain" />
+            </figure>
+            <div className="card-body">
+                <h2 className="card-title">{item.name}</h2>
+                <span className="badge badge-xs badge-warning">{item.category.name}</span>
+                <p className="text-sm text-gray-500">{item.description}</p>
+                <div className="card-actions justify-end">
+                    <button
+                        className={`${item.state.name === 'AVAILABLE' ? 'bg-quaternary' : 'bg-opposite'} hover:bg-secondary text-white px-4 py-2 text-[.6rem] sm:text-sm transition ease-in duration-200 cursor-pointer`}>
+                        {item.state.name === 'AVAILABLE' ? 'Loan' : 'Book'}
+                    </button>
                 </div>
-                <p className={'text-[.5rem] sm:text-xs'}>{item.description}</p>
-            </div>
-            <div className={'mt-4'}>
-                <button className={`${item.state.name === 'AVAILABLE' ? 'bg-quaternary' : 'bg-opposite'} hover:bg-secondary text-white px-4 py-2 text-[.6rem] sm:text-sm transition ease-in duration-200 cursor-pointer`}>
-                    {item.state.name === 'AVAILABLE' ? 'Loan' : 'Book'}
-                </button>
             </div>
         </div>
     );

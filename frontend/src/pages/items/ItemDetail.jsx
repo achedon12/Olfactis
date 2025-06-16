@@ -45,8 +45,6 @@ const ItemDetail = () => {
     };
 
     const handleLoan = async (item) => {
-        toast.info('Processing your loan request...');
-
         let hasDueDate = false;
         const dueDate = new Date();
         if (JSON.parse(localStorage.getItem('user')).subscription.loan_limit !== -1) {
@@ -78,8 +76,6 @@ const ItemDetail = () => {
     };
 
     const handleBook = async (item) => {
-        toast.info('Processing your booking request...');
-
         const dueDate = new Date();
         dueDate.setMonth(dueDate.getMonth() + JSON.parse(localStorage.getItem('user')).subscription.booking_limit);
 

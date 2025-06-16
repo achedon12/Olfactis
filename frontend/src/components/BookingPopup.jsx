@@ -46,9 +46,6 @@ const BookingPopup = ({item, setShowPopup, showPopup, action = 'Loan', handleAct
             <div className="bg-white p-6 shadow-lg">
                 <div className="mb-4">
                     <h1 className="text-2xl text-quaternary mb-4">{item.name}</h1>
-                    <p className="mb-4">{item.description}</p>
-                    <p className="mb-4"><strong>Reference:</strong> {item.reference}</p>
-                    <p className="mb-4"><strong>Category:</strong> {item.category.name}</p>
                     <p className={`mb-4 ${item.state.name === 'LOANED' ? 'text-red-500' : ''}`}>
                         <strong>Due date:</strong> {dueDate}
                     </p>
@@ -65,7 +62,7 @@ const BookingPopup = ({item, setShowPopup, showPopup, action = 'Loan', handleAct
                         }
                     </div>
                 </div>
-                <div className="flex justify-end space-x-4">
+                <div className="flex justify-center space-x-4">
                     <button
                         onClick={() => setShowPopup(false)}
                         className="bg-gray-300 px-4 py-2 cursor-pointer">Cancel
