@@ -24,6 +24,7 @@ const ItemDetail = () => {
                 });
                 const data = await response.json();
                 setItem(data);
+                console.log(data);
             } catch (error) {
                 console.error('Failed to fetch item:', error);
             }
@@ -107,9 +108,9 @@ const ItemDetail = () => {
     return (
         <div className={'w-full h-[calc(100vh-4rem)]'}>
             <div className={'h-2/3 bg-white'}>
-                <div className="flex flex-col lg:flex-row items-center lg:items-start">
-                    <div className="w-full lg:w-1/2 mb-4 lg:mb-0">
-                        <img src={item.picture} alt={item.name} className="w-full h-auto object-cover"/>
+                <div className="flex flex-col lg:flex-row items-center lg:items-start h-full">
+                    <div className="w-full lg:w-1/2 mb-4 lg:mb-0 flex justify-center items-center h-full">
+                        <img src={`${config.baseUrl}/items/`+item.picture} alt={item.name} className="max-w-[40%] h-auto object-cover"/>
                     </div>
                     <div className="w-full lg:w-1/2 p-8">
                         <h1 className="text-2xl text-quaternary mb-4">{item.name}</h1>
