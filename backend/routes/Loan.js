@@ -25,6 +25,15 @@ router.get('/:id', verifyToken, async (req, res) => {
     }
 });
 
+router.get('/:id/many', verifyToken, async (req, res) => {
+    try {
+        const loan = await Loan.find({ item: req.params.id }).populate('item').populate('user');
+        res.json(loan);
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
+});
+
 router.post('/', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.body.user);

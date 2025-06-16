@@ -11,10 +11,12 @@ const ItemDetail = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [showPopup, setShowPopup] = useState(false);
+    const [loans, setLoans] = useState([]);
 
     const fromCatalog = new URLSearchParams(location.search).get('fromCatalog') === 'true';
 
     useEffect(() => {
+
         const fetchItem = async () => {
             try {
                 const response = await fetch(`${config.apiBaseUrl}/item/${id}`, {
@@ -29,11 +31,33 @@ const ItemDetail = () => {
             }
         };
 
+        const fetchLoans = async () => {
+            try {
+                const response = await fetch(`${config.apiBaseUrl}/loan/${id}/many`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const data = await response.json();
+                setLoans(data);
+            } catch (error) {
+                console.error('Failed to fetch loans:', error);
+            }
+        };
+
         fetchItem();
+        fetchLoans();
+
     }, [id]);
 
     if (!item) {
         return <Loader/>;
+    }
+
+    const isAdmin = async () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const role = user.subscription.name
+        return role === 'admin';
     }
 
     const handleGoBack = () => {
@@ -110,7 +134,7 @@ const ItemDetail = () => {
             <div className={'h-2/3 bg-white'}>
                 <div className="flex flex-col lg:flex-row items-center lg:items-start h-full">
                     <div className="w-full lg:w-1/2 mb-4 lg:mb-0 flex justify-center items-center h-full">
-                        <img src={`${config.baseUrl}/items/`+item.picture} alt={item.name} className="max-w-[40%] h-auto object-cover"/>
+                        <img src={`${config.baseUrl}/items/`+item.picture} alt={item.name} className="max-w-[35%] h-auto object-cover"/>
                     </div>
                     <div className="w-full lg:w-1/2 p-8">
                         <h1 className="text-2xl text-quaternary mb-4">{item.name}</h1>
@@ -133,6 +157,39 @@ const ItemDetail = () => {
                     </div>
                 </div>
             </div>
+
+            {isAdmin && (
+                <div className="text-center pt-10">
+                    <h1 className="text-2xl text-quaternary mb-4">Loans</h1>
+                    {loans.length > 0 ? (
+                            <table className="min-w-full mt-4 border-collapse">
+                                <thead>
+                                <tr>
+                                    <th className="border p-2">User</th>
+                                    <th className="border p-2">Start Date</th>
+                                    <th className="border p-2">End Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {loans.map((loan) => (
+                                    <tr key={loan._id}>
+                                        <td className="border p-2">
+                                            {loan?.user?.email || 'Unknown'}
+                                        </td>
+                                        <td className="border p-2">
+                                            {new Date(loan.start_date).toLocaleString()}
+                                        </td>
+                                        <td className="border p-2">
+                                            {new Date(loan.end_date).toLocaleString()}
+                                        </td>
+                                    </tr>)
+                                )}
+
+                                </tbody>
+                            </table>)
+                        : <p>No loan was found.</p>}
+                </div>)
+            }
             <div className={'w-full flex justify-center items-center h-1/3'}>
                 <ActionButton onClick={handleGoBack}>Go back</ActionButton>
             </div>
