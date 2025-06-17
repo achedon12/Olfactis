@@ -97,7 +97,7 @@ const Tabs = ({user, loans, loansReturned, bookings}) => {
                         {loans.length === 0 ? (
                             <p className="text-gray-500">No loans ongoing.</p>
                         ) : (
-                            <div className="space-y-4">
+                            <div className="space-y-4 overflow-y-scroll h-96">
                                 {loans.map((loan, index) => (
                                     <div key={loan.id || index} className="border border-gray-200 rounded-lg p-4">
                                         <div className="flex items-center justify-between">
@@ -139,7 +139,7 @@ const Tabs = ({user, loans, loansReturned, bookings}) => {
                         {bookings.length === 0 ? (
                             <p className="text-gray-500">No bookings ongoing.</p>
                         ) : (
-                            <div className="space-y-4">
+                            <div className="space-y-4 overflow-y-scroll h-96">
                                 {bookings.map((booking, index) => (
                                     <div key={booking.id || index} className="border border-gray-200 rounded-lg p-4">
                                         <h4 className="font-medium text-gray-900">{booking.item.name}</h4>
@@ -159,7 +159,7 @@ const Tabs = ({user, loans, loansReturned, bookings}) => {
                         {loansReturned.length === 0 ? (
                             <p className="text-gray-500">No loan history.</p>
                         ) : (
-                            <div className="space-y-4">
+                            <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-2 overflow-y-scroll h-96">
                                 {loansReturned.map((loanReturned, index) => (
                                     <div key={loanReturned.id || index}
                                          className="border border-gray-200 rounded-lg p-4">
