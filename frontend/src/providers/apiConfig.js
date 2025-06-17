@@ -1,10 +1,10 @@
 const config = {
     apiBaseUrl: 'http://localhost:2501/api',
     baseUrl: 'http://localhost:2501/',
-    headers: {
+    getHeaders: () => ({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
-    }
+        'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+    }),
 };
 
 export default config;

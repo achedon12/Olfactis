@@ -13,7 +13,11 @@ const SubscriptionSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    duration: {
+    loan_duration: {
+        type: Number,
+        required: true
+    },
+    extend_duration: {
         type: Number,
         required: true
     },
@@ -32,6 +36,10 @@ const SubscriptionSchema = new mongoose.Schema({
     updated_at: {
         type: Date,
         default: Date.now
+    },
+    order: {
+        type: Number,
+        default: 0
     }
 });
 

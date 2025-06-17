@@ -5,42 +5,52 @@ const seedSubscription = async () => {
         {
             name: 'Basic',
             description: 'Basic subscription',
-            price: 0,
-            duration: 1,
-            booking_limit: 1,
-            loan_limit: 1
+            price: 5,
+            loan_duration: 7,
+            extend_duration: 0,
+            booking_limit: 2,
+            loan_limit: 1,
+            order: 0
         },
         {
             name: 'Premium',
             description: 'Premium subscription',
-            price: 10,
-            duration: 2,
-            booking_limit: 2,
-            loan_limit: 2
+            price: 15,
+            loan_duration: 14,
+            extend_duration: 7,
+            booking_limit: 5,
+            loan_limit: 3,
+            order: 1
         },
         {
             name: 'Gold',
             description: 'Gold subscription',
-            price: 20,
-            duration: 3,
-            booking_limit: 3,
-            loan_limit: 3
+            price: 25,
+            loan_duration: 21,
+            extend_duration: 14,
+            booking_limit: 10,
+            loan_limit: 5,
+            order: 2
         },
         {
             name: 'Diamond',
             description: 'Diamond subscription',
-            price: 30,
-            duration: 5,
-            booking_limit: 5,
-            loan_limit: 5
+            price: 40,
+            loan_duration: 30,
+            extend_duration: 21,
+            booking_limit: 15,
+            loan_limit: 10,
+            order: 3
         },
         {
             name: 'admin',
             description: 'Admin subscription',
             price: -1,
-            duration: -1,
+            loan_duration: -1,
+            extend_duration: -1,
             booking_limit: -1,
-            loan_limit: -1
+            loan_limit: -1,
+            order: 4
         }
     ];
 

@@ -18,7 +18,7 @@ export const AuthProvider = ({children}) => {
     const register = async (firstname, lastname, email, password) => {
         const response = await fetch(`${config.apiBaseUrl}/auth/register`, {
             method: 'POST',
-            headers: config.headers,
+            headers: config.getHeaders(),
             body: JSON.stringify({firstname, lastname, email, password})
         });
 
@@ -31,7 +31,7 @@ export const AuthProvider = ({children}) => {
     const login = async (email, password) => {
         const response = await fetch(`${config.apiBaseUrl}/auth/login`, {
             method: 'POST',
-            headers: config.headers,
+            headers: config.getHeaders(),
             body: JSON.stringify({email, password})
         });
 
@@ -46,6 +46,7 @@ export const AuthProvider = ({children}) => {
         localStorage.setItem('user', JSON.stringify(data.user));
         localStorage.setItem('bookings', JSON.stringify(data.bookings));
         localStorage.setItem('loans', JSON.stringify(data.loans));
+        localStorage.setItem('loansReturned', JSON.stringify(data.loansReturned));
         setIsAuthenticated(true);
     };
 
@@ -54,6 +55,7 @@ export const AuthProvider = ({children}) => {
         localStorage.removeItem('user');
         localStorage.removeItem('bookings');
         localStorage.removeItem('loans');
+        localStorage.removeItem('loansReturned');
         setIsAuthenticated(false);
     };
 

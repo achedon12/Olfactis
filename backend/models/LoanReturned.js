@@ -19,6 +19,11 @@ const LoanReturnedSchema = new mongoose.Schema({
         type: Date,
         required: false
     },
+    returned_at: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
     created_at: {
         type: Date,
         default: Date.now

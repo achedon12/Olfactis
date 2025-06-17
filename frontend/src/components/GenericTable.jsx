@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import { Loader, ConfirmPopup } from "./index.js";
+import config from "../providers/apiConfig.js";
 
 const GenericTable = ({ fetchUrl, columns, rowActions }) => {
     const [data, setData] = useState([]);
@@ -43,9 +44,7 @@ const GenericTable = ({ fetchUrl, columns, rowActions }) => {
         try {
             const response = await fetch(`${fetchUrl}/${itemToDelete}`, {
                 method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+                headers: config.getHeaders()(),
             });
             if (response.ok) {
                 setData(data.filter(item => item._id !== itemToDelete));

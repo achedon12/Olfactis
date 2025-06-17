@@ -17,7 +17,7 @@ const Layout = () => {
                 <div className="flex-1">
                     <NavLink to="/" className="flex text-xl text-white hover items-center">
                         <img src="/olfactis.png" alt="logo" className="h-10 mr-2 fill-white"/>
-                        <a className="text-xl md:text-2xl text-white font-bold">Olfactis</a>
+                        <span className="text-xl md:text-2xl text-white font-bold">Olfactis</span>
                     </NavLink>
                 </div>
                 <div className="flex-none">

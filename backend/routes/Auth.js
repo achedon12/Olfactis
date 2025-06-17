@@ -10,6 +10,7 @@ const User = require('../models/User');
 const sendMail = require("../utils/mailer");
 const Subscription = require("../models/Subscription");
 const Loan = require('../models/Loan');
+const LoanReturned = require('../models/LoanReturned');
 const Booking = require('../models/Booking');
 
 
@@ -36,7 +37,7 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        const user = await User.findOne({ email: req.body.email })
+        const user = await User.findOne({ email: req.body.email }).populate('subscription');
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
             user.token = token;
@@ -44,9 +45,13 @@ router.post('/login', async (req, res) => {
             await user.save();
             user.populate('subscription');
 
-            const loans = await Loan.find({ user: user._id }).populate('item');
-            const bookings = await Booking.find({ user: user._id }).populate('item');
-            res.status(200).json({ token, user, loans, bookings });
+            const loans = await Loan.find({ user: user._id })
+                .populate({path: 'item', populate: {path: 'category', model: 'Category'}});
+            const loansReturned = await LoanReturned.find({ user: user._id })
+                .populate({path: 'item', populate: {path: 'category', model: 'Category'}});
+            const bookings = await Booking.find({ user: user._id })
+                .populate({path: 'item', populate: {path: 'category', model: 'Category'}});
+            res.status(200).json({ token, user, loans, loansReturned, bookings });
         } else {
             res.status(401).json({ message: 'Invalid password' });
         }

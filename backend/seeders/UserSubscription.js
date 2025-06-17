@@ -13,7 +13,7 @@ const seedUserSubscription = async () => {
             user: user._id,
             subscription: subscription._id,
             start_date: new Date(),
-            end_date: new Date(new Date().setMonth(new Date().getMonth() + subscription.duration))
+            end_date: new Date(new Date().setMonth(new Date().getMonth() + subscription.loan_duration))
         };
     });
 

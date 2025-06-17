@@ -102,7 +102,7 @@ router.get('/:id', verifyToken, async (req, res) => {
 
 router.put('/update/:id', verifyToken, async (req, res) => {
     try {
-        const user = await User.findByIdAndUpdate(req.params.id);
+        const user = await User.findByIdAndUpdate(req.params.id, req.body);
 
         if (!user) {
             return res.status(404).json({message: 'User not found'});

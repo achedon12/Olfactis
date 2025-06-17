@@ -79,7 +79,7 @@ const ItemDetail = () => {
         }
         const response = await fetch(`${config.apiBaseUrl}/loan`, {
             method: 'POST',
-            headers: config.headers,
+            headers: config.getHeaders(),
             body: JSON.stringify({
                 token: localStorage.getItem('token'),
                 item: item._id,
@@ -106,7 +106,7 @@ const ItemDetail = () => {
 
         const response = await fetch(`${config.apiBaseUrl}/booking`, {
             method: 'POST',
-            headers: config.headers,
+            headers: config.getHeaders(),
             body: JSON.stringify({
                 token: localStorage.getItem('token'),
                 item: item._id,

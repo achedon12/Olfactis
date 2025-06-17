@@ -24,7 +24,7 @@ const BookingPopup = ({item, setShowPopup, showPopup, action = 'Loan', handleAct
             if (showPopup && action === 'Book') {
                 const response = await fetch(`${config.apiBaseUrl}/loan/${item._id}`, {
                     method: 'GET',
-                    headers: config.headers
+                    headers: config.getHeaders()
                 });
 
                 if (response.ok) {
