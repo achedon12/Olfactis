@@ -7,7 +7,6 @@ const seedStates = async () => {
     ]
 
     await State.deleteMany({});
-
     await State.insertMany(states);
 
     console.log('States seeded');

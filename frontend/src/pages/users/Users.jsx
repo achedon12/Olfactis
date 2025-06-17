@@ -20,7 +20,7 @@ const Users = () => {
         { id: 'updated_at', label: 'Updated At', accessor: (user) => new Date(user.updated_at).toLocaleDateString(), minWidth: 120 }
     ];
 
-    const fetchUrl = `${config.apiBaseUrl}/user/list`;
+    const fetchUrl = `${config.apiBaseUrl}/user`;
 
     return (
         <div>

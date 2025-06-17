@@ -6,7 +6,7 @@ const verifyToken = require('../middleware/jwt');
 const User = require('../models/User');
 const sendMail = require("../utils/mailer");
 
-router.post('/create', verifyToken, async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
     try {
         const newUser = new User(req.body);
         newUser.password = await bcrypt.hash(req.body.password, 10);
@@ -50,36 +50,11 @@ router.post('/resendVerificationEmail', verifyToken, async (req, res) => {
     }
 });
 
-router.get('/list', verifyToken, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
     try {
         const users = await User.find().populate('subscription', 'name').sort({created_at: -1});
         res.status(200).json(users);
 
-    } catch (error) {
-        res.status(400).json({message: error.message});
-    }
-});
-
-router.put('/:id/newsletter', verifyToken, async (req, res) => {
-    if (!req.body) {
-        return res.status(400).json({message: 'Request body is required'});
-    }
-
-    if (![true, false].includes(req.body.newsletter)) {
-        return res.status(400).json({message: 'Newsletter preference must be true or false'});
-    }
-
-    try {
-        const user = await User.findById(req.params.id);
-
-        if (!user) {
-            return res.status(404).json({message: 'User not found'});
-        }
-
-        user.newsletter = req.body.newsletter;
-        const userUpdated = await user.save();
-
-        res.status(200).json(userUpdated);
     } catch (error) {
         res.status(400).json({message: error.message});
     }
@@ -100,7 +75,7 @@ router.get('/:id', verifyToken, async (req, res) => {
     }
 });
 
-router.put('/update/:id', verifyToken, async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
     try {
         const user = await User.findByIdAndUpdate(req.params.id, req.body);
 

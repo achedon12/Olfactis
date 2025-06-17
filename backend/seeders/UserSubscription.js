@@ -6,7 +6,6 @@ const seedUserSubscription = async () => {
     const users = await User.find({});
     const subscriptions = await Subscription.find({});
 
-    // Create a user subscription for each user
     const userSubscriptions = users.map((user, index) => {
         const subscription = subscriptions[index % subscriptions.length];
         return {

@@ -15,15 +15,6 @@ router.get('/', verifyToken, async (req, res) => {
     }
 });
 
-router.get('/list', verifyToken, async (req, res) => {
-    try {
-        const bookings = await Booking.find().populate('item').populate('user');
-        res.json(bookings);
-    } catch (error) {
-        res.status(400).json({ error: error });
-    }
-});
-
 router.get('/:id', verifyToken, async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.id).populate('item').populate('user');

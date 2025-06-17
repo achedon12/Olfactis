@@ -55,7 +55,6 @@ const seedSubscription = async () => {
     ];
 
     await Subscription.deleteMany({});
-
     await Subscription.insertMany(subscriptions);
 
     console.log('Subscriptions seeded');

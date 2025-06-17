@@ -13,7 +13,8 @@ const PersonalInfo = ({user, setUser}) => {
                 firstname: user.firstname || '',
                 lastname: user.lastname || '',
                 email: user.email || '',
-                newPassword: ''
+                newPassword: '',
+                newsletter: user.newsletter || false
             });
         }
     }, [user]);
@@ -32,26 +33,27 @@ const PersonalInfo = ({user, setUser}) => {
         return errors;
     };
 
-    const handleSave = async (e) => {
-        e.preventDefault();
+    const handleSave = async (updatedForm = form) => {
         const newErrors = {};
-        if (!form.firstname) newErrors.firstname = 'Firstname required';
-        if (!form.lastname) newErrors.lastname = 'Lastname required';
-        if (form.newPassword) {
-            const pwdErrors = validatePassword(form.newPassword);
+        if (!updatedForm.firstname) newErrors.firstname = 'Firstname required';
+        if (!updatedForm.lastname) newErrors.lastname = 'Lastname required';
+        if (updatedForm.newPassword) {
+            const pwdErrors = validatePassword(updatedForm.newPassword);
             if (pwdErrors.length) newErrors.newPassword = 'Password : ' + pwdErrors.join(', ');
         }
         setErrors(newErrors);
         if (Object.keys(newErrors).length) return;
 
         try {
-            const response = await fetch(`${config.apiBaseUrl}/user/update/${user._id}`, {
+            const response = await fetch(`${config.apiBaseUrl}/user/${user._id}`, {
                 method: 'PUT',
                 headers: config.getHeaders(),
                 body: JSON.stringify({
-                    firstname: form.firstname,
-                    lastname: form.lastname,
-                    newPassword: form.newPassword || undefined
+                    firstname: updatedForm.firstname,
+                    lastname: updatedForm.lastname,
+                    email: updatedForm.email,
+                    newPassword: updatedForm.newPassword || undefined,
+                    newsletter: updatedForm.newsletter
                 })
             });
 
@@ -99,28 +101,6 @@ const PersonalInfo = ({user, setUser}) => {
             }
         } catch (error) {
             toast.error(`Error: ${error.message}`);
-        }
-    };
-
-    const handleUnsubscribeNewsletter = async (state = true) => {
-        console.log('Unsubscribe from newsletter:', state);
-        try {
-            const response = await fetch(`${config.apiBaseUrl}/user/${user._id}/newsletter`, {
-                method: 'PUT',
-                headers: config.getHeaders(),
-                body: JSON.stringify({
-                    newsletter: state
-                })
-            });
-            const data = await response.json();
-            if (response.ok) {
-                toast.info(`You have successfully ${state ? 'subscribed to' : 'unsubscribed from'} the newsletter!`);
-                setUser(prev => ({...prev, newsletter: state}));
-            } else {
-                throw new Error(data.message || 'Failed to update newsletter preference');
-            }
-        } catch (error) {
-            toast.error(`Error unsubscribing from newsletter: ${error.message}`);
         }
     };
 
@@ -253,14 +233,14 @@ const PersonalInfo = ({user, setUser}) => {
                             <div className={"mt-5"}>
                                 {user.newsletter ? (
                                     <button
-                                        onClick={() => handleUnsubscribeNewsletter(false)}
+                                        onClick={() => {handleSave({...form, newsletter: false})}}
                                         className="btn btn-secondary text-white hover:bg-gray-700"
                                     >
                                         Unsubscribe from Newsletter
                                     </button>
                                 ) : (
                                     <button
-                                        onClick={() => handleUnsubscribeNewsletter(true)}
+                                        onClick={() => {handleSave({...form, newsletter: true})}}
                                         className="btn btn-secondary text-white hover:bg-gray-700"
                                     >
                                         Subscribe to Newsletter

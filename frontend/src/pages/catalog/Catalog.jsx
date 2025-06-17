@@ -13,10 +13,8 @@ const Catalog = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await fetch(`${config.apiBaseUrl}/item/list`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
+                const response = await fetch(`${config.apiBaseUrl}/item`, {
+                    headers: config.getHeaders()
                 });
                 const data = await response.json();
                 setItems(data);
@@ -29,10 +27,8 @@ const Catalog = () => {
 
         const fetchCategories = async () => {
             try {
-                const response = await fetch(`${config.apiBaseUrl}/category/list`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
+                const response = await fetch(`${config.apiBaseUrl}/category`, {
+                    headers: config.getHeaders()
                 });
                 const data = await response.json();
                 setCategories(data);

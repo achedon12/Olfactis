@@ -4,7 +4,7 @@ const verifyToken = require('../middleware/jwt');
 
 const State = require('../models/State');
 
-router.get('/list', verifyToken, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
     try {
         const states = await State.find();
         res.status(200).json(states);

@@ -6,7 +6,17 @@ const Category = require('../models/Category');
 const State = require('../models/State');
 const verifyToken = require("../middleware/jwt");
 
-router.post('/create', verifyToken, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
+    try {
+        const items = await Item.find().populate('category').populate('state');
+        res.status(200).json(items);
+
+    } catch (error) {
+        res.status(400).json({message: error.message});
+    }
+});
+
+router.post('/', verifyToken, async (req, res) => {
     try {
         const newItem = new Item(req.body);
         const itemRegistered = await newItem.save();
@@ -16,16 +26,6 @@ router.post('/create', verifyToken, async (req, res) => {
         itemRegistered.state = await State.findById(req.body.state);
 
         res.status(201).json(itemRegistered);
-
-    } catch (error) {
-        res.status(400).json({message: error.message});
-    }
-});
-
-router.get('/list', verifyToken, async (req, res) => {
-    try {
-        const items = await Item.find().populate('category').populate('state');
-        res.status(200).json(items);
 
     } catch (error) {
         res.status(400).json({message: error.message});
@@ -47,7 +47,7 @@ router.get('/:id', verifyToken, async (req, res) => {
     }
 });
 
-router.put('/update/:id', verifyToken, async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
     try {
         const item = await Item.findByIdAndUpdate(req.params.id).populate('category').populate('state');
 

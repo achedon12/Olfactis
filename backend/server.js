@@ -19,6 +19,7 @@ app.use('/api/state', require('./routes/State'));
 app.use('/api/item', require('./routes/Item'));
 app.use('/api/booking', require('./routes/Booking'));
 app.use('/api/loan', require('./routes/Loan'));
+app.use('/api/loanHistory', require('./routes/LoanHistory'));
 app.use('/api/subscription', require('./routes/Subscription'));
 
 app.listen(process.env.PORT, () => {

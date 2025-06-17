@@ -68,7 +68,7 @@ const Tabs = ({user, loans, loansReturned, bookings}) => {
 
     const handleSubscriptionUpgrade = async (subscriptionId) => {
         try {
-            const response = await fetch(`${config.apiBaseUrl}/subscription/upgrade/${user._id}`, {
+            const response = await fetch(`${config.apiBaseUrl}/subscription/${user._id}`, {
                 method: 'PUT',
                 headers: config.getHeaders(),
                 body: JSON.stringify({subscriptionId})
@@ -90,7 +90,7 @@ const Tabs = ({user, loans, loansReturned, bookings}) => {
     return (
         <div className="w-full h-full rounded-sm overflow-hidden p-6 bg-white">
             <div className="tabs tabs-lift">
-                <input type="radio" name="my_tabs_3" className="tab" aria-label="Loans" defaultChecked/>
+                <input type="radio" name="my_tabs_3" className="tab" aria-label="LoansHistory" defaultChecked/>
                 <div className="tab-content bg-base-100 border-base-300 p-6">
                     <div>
                         <h3 className="text-lg font-medium text-gray-900 mb-4">Your loans</h3>

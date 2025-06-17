@@ -10,7 +10,6 @@ const seedStates = require('./State');
 const seedSubscriptions = require('./Subscription');
 const seedUsersSubscription = require('./UserSubscription');
 
-// Connect to the database
 connectDB();
 
 const seedDatabase = async () => {
@@ -25,7 +24,7 @@ const seedDatabase = async () => {
     } catch (error) {
         console.error('Error seeding database:', error);
     } finally {
-        mongoose.connection.close();
+        await mongoose.connection.close();
     }
 };
 

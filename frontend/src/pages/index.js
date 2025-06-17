@@ -11,7 +11,8 @@ import UpdateItem from "./items/UpdateItem.jsx";
 import ItemDetail from "./items/ItemDetail.jsx";
 
 import Bookings from "./bookings/Bookings.jsx";
-
 import Users from "./users/Users.jsx";
+import Loans from "./loans/Loans.jsx";
+import LoansHistory from "./loansHistory/LoansHistory.jsx";
 
-export { Layout, NotFound, Home, Login, Catalog, Items, UpdateItem, ItemDetail, Profile, Bookings, Users };
+export { Layout, NotFound, Home, Login, Catalog, Items, UpdateItem, ItemDetail, Profile, Bookings, Users, Loans, LoansHistory };

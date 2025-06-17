@@ -21,7 +21,7 @@ const Items = () => {
         { id: 'state', label: 'State', minWidth: 100, accessor: item => item.state.name },
     ];
 
-    const fetchUrl = `${config.apiBaseUrl}/item/list`;
+    const fetchUrl = `${config.apiBaseUrl}/item`;
 
     return (
         <div>

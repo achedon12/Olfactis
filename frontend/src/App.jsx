@@ -1,7 +1,7 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {AuthProvider} from './providers/AuthProvider';
 import {ProtectedRoute} from "./components";
-import {Home, Layout, Login, Catalog, NotFound, Items, UpdateItem, ItemDetail, Profile, Bookings, Users} from "./pages";
+import {Home, Layout, Login, Catalog, NotFound, Items, UpdateItem, ItemDetail, Profile, Bookings, Users, Loans, LoansHistory} from "./pages";
 
 const App = () => (
     <AuthProvider>
@@ -19,6 +19,8 @@ const App = () => (
                     <Route path="/item/:id" element={<ProtectedRoute><ItemDetail /></ProtectedRoute>} />
                     <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
                     <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+                    <Route path="/loans" element={<ProtectedRoute><Loans /></ProtectedRoute>} />
+                    <Route path="/loansHistory" element={<ProtectedRoute><LoansHistory /></ProtectedRoute>} />
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>

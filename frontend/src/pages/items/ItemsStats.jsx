@@ -19,7 +19,7 @@ function ItemStats({ loans }) {
 
     return (
         <div className="p-6">
-            <h2 className="text-2xl mb-4">Loans per month - {currentYear}</h2>
+            <h2 className="text-2xl mb-4">LoansHistory per month - {currentYear}</h2>
             <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" />

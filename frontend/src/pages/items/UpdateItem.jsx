@@ -22,12 +22,10 @@ const UpdateItem = () => {
         const fetchCategoriesAndStates = async () => {
             try {
                 const [categoriesResponse, statesResponse] = await Promise.all([
-                    fetch(`${config.apiBaseUrl}/category/list`, {
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`
-                        }
+                    fetch(`${config.apiBaseUrl}/category`, {
+                        headers: config.getHeaders()
                     }),
-                    fetch(`${config.apiBaseUrl}/state/list`, {
+                    fetch(`${config.apiBaseUrl}/state`, {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem('token')}`
                         }
@@ -72,13 +70,10 @@ const UpdateItem = () => {
         e.preventDefault();
         try {
             const method = isEditMode ? 'PUT' : 'POST';
-            const url = isEditMode ? `${config.apiBaseUrl}/item/update/${id}` : `${config.apiBaseUrl}/item/create`;
+            const url = isEditMode ? `${config.apiBaseUrl}/item/${id}` : `${config.apiBaseUrl}/item`;
             const response = await fetch(url, {
                 method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
+                headers: config.getHeaders(),
                 body: JSON.stringify(formData)
             });
             if (response.ok) {

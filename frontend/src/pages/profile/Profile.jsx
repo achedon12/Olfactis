@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-import config from "../../providers/apiConfig.js";
 import { Loader } from "../../components/index.js";
 import { useNavigate } from "react-router-dom";
 import PersonalInfo from "./PersonalInfo";

@@ -34,7 +34,7 @@ router.get('/upgradable/:id', verifyToken, async (req, res) => {
     }
 });
 
-router.put('/upgrade/:id', verifyToken, async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.params.id).populate('subscription');
 

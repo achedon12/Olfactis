@@ -48,6 +48,18 @@ const Layout = () => {
                                         Users
                                     </NavLink>
                                 </li>
+                                <li>
+                                    <NavLink to="/loans"
+                                             className={({isActive}) => isActive ? 'text-quaternary' : 'text-white'}>
+                                        Loans
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/loansHistory"
+                                             className={({isActive}) => isActive ? 'text-quaternary' : 'text-white'}>
+                                        Loans History
+                                    </NavLink>
+                                </li>
                             </>
                         )}
                     </ul>

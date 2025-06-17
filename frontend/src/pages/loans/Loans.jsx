@@ -3,7 +3,7 @@ import { TrashSimple } from '@phosphor-icons/react';
 import GenericTable from "../../components/GenericTable.jsx";
 import config from "../../providers/apiConfig.js";
 
-const Bookings = () => {
+const Loans = () => {
     const rowActions = (item, openModal) => (
         <div className="flex justify-center space-x-2">
             <TrashSimple className="cursor-pointer text-red-500 hover:text-red-700" onClick={() => openModal(item._id)} />
@@ -19,11 +19,11 @@ const Bookings = () => {
         { id: 'updated_at', label: 'Updated At', accessor: (item) => new Date(item.updated_at).toLocaleDateString(), minWidth: 120 }
     ];
 
-    const fetchUrl = `${config.apiBaseUrl}/booking`;
+    const fetchUrl = `${config.apiBaseUrl}/loan`;
 
     return (
         <div>
-            <h1 className="text-3xl text-center my-6 tracking-widest">Bookings</h1>
+            <h1 className="text-3xl text-center my-6 tracking-widest">Loans</h1>
             <GenericTable
                 fetchUrl={fetchUrl}
                 columns={columns}
@@ -33,4 +33,4 @@ const Bookings = () => {
     );
 };
 
-export default Bookings;
+export default Loans;
