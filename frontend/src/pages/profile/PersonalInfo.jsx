@@ -20,6 +20,10 @@ const PersonalInfo = ({user, setUser}) => {
     }, [user]);
 
     const handleChange = (e) => {
+        if (e.target.name === 'newsletter') {
+            setForm({...form, [e.target.name]: e.target.checked});
+            return;
+        }
         setForm({...form, [e.target.name]: e.target.value});
     };
 
@@ -33,12 +37,13 @@ const PersonalInfo = ({user, setUser}) => {
         return errors;
     };
 
-    const handleSave = async (updatedForm = form) => {
+    const handleSave = async (e) => {
+        e.preventDefault();
         const newErrors = {};
-        if (!updatedForm.firstname) newErrors.firstname = 'Firstname required';
-        if (!updatedForm.lastname) newErrors.lastname = 'Lastname required';
-        if (updatedForm.newPassword) {
-            const pwdErrors = validatePassword(updatedForm.newPassword);
+        if (!form.firstname) newErrors.firstname = 'Firstname required';
+        if (!form.lastname) newErrors.lastname = 'Lastname required';
+        if (form.newPassword) {
+            const pwdErrors = validatePassword(form.newPassword);
             if (pwdErrors.length) newErrors.newPassword = 'Password : ' + pwdErrors.join(', ');
         }
         setErrors(newErrors);
@@ -49,11 +54,11 @@ const PersonalInfo = ({user, setUser}) => {
                 method: 'PUT',
                 headers: config.getHeaders(),
                 body: JSON.stringify({
-                    firstname: updatedForm.firstname,
-                    lastname: updatedForm.lastname,
-                    email: updatedForm.email,
-                    newPassword: updatedForm.newPassword || undefined,
-                    newsletter: updatedForm.newsletter
+                    firstname: form.firstname,
+                    lastname: form.lastname,
+                    email: form.email,
+                    newPassword: form.newPassword || undefined,
+                    newsletter: form.newsletter
                 })
             });
 
@@ -176,6 +181,18 @@ const PersonalInfo = ({user, setUser}) => {
                             />
                             {errors.newPassword && <p className="text-red-500 text-xs">{errors.newPassword}</p>}
                         </div>
+                        <div className="flex items-center mt-4">
+                            <input
+                                type="checkbox"
+                                name="newsletter"
+                                checked={form.newsletter}
+                                onChange={handleChange}
+                                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            />
+                            <label className="ml-2 block text-sm text-gray-700">
+                                Subscribe to Newsletter
+                            </label>
+                        </div>
                         <div className="flex space-x-3 pt-2">
                             <button
                                 type="submit"
@@ -207,6 +224,10 @@ const PersonalInfo = ({user, setUser}) => {
                                 <p className="text-sm text-gray-500">Email</p>
                                 <p className="font-medium">{user.email}</p>
                             </div>
+                            <div>
+                                <p className="text-sm text-gray-500 mt-5">Newsletter Subscription</p>
+                                <p className="text-sm text-gray-700">{user.newsletter ? 'Subscribed' : 'Not Subscribed'}</p>
+                            </div>
                         </div>
                         <div>
                             <p className="text-sm text-gray-500 mt-5">Account Status</p>
@@ -224,29 +245,6 @@ const PersonalInfo = ({user, setUser}) => {
                                     </button>
                                 </>
                             )}
-                        </div>
-                        <div>
-                            <p className="text-sm text-gray-500 mt-5">Newsletter Subscription</p>
-                            <p className="text-sm text-gray-700">
-                                {user.newsletter ? 'Subscribed' : 'Not Subscribed'}
-                            </p>
-                            <div className={"mt-5"}>
-                                {user.newsletter ? (
-                                    <button
-                                        onClick={() => {handleSave({...form, newsletter: false})}}
-                                        className="btn btn-secondary text-white hover:bg-gray-700"
-                                    >
-                                        Unsubscribe from Newsletter
-                                    </button>
-                                ) : (
-                                    <button
-                                        onClick={() => {handleSave({...form, newsletter: true})}}
-                                        className="btn btn-secondary text-white hover:bg-gray-700"
-                                    >
-                                        Subscribe to Newsletter
-                                    </button>
-                                )}
-                            </div>
                         </div>
                         <div className="flex space-x-3 mt-10">
                             <button

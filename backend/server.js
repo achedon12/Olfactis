@@ -22,7 +22,6 @@ app.use('/api/loan', require('./routes/Loan'));
 app.use('/api/loanHistory', require('./routes/LoanHistory'));
 app.use('/api/subscription', require('./routes/Subscription'));
 
-app.listen(process.env.PORT, () => {
-});
+app.listen(process.env.PORT, () => {});
 
 require('./tasks');
