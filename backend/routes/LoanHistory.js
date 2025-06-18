@@ -57,6 +57,10 @@ router.put('/:id', verifyToken, async (req, res) => {
             },
             { new: true }
         );
+        if (!history) {
+            return res.status(404).json({ error: 'History not found' });
+        }
+        res.json(history);
     }
     catch (error) {
         return handleError(res, error);
