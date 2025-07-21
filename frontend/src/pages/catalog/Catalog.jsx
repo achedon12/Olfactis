@@ -49,17 +49,16 @@ const Catalog = () => {
     return (
         <>
             <div className={'w-full'}>
-                <h1 className={'text-3xl text-center my-6 tracking-widest'}>Catalog</h1>
-                <div className={'w-full flex justify-center mb-8'}>
+                <div className={'w-full flex justify-center my-8'}>
                     <div className={'w-5/6 md:w-1/2 relative'}>
                         <input
                             type="text"
                             placeholder="Search a material"
-                            className={'w-full p-2 my-2 bg-input-color placeholder-white text-text-color focus:outline-quaternary pr-10'}
+                            className={'w-full p-2 my-2 bg-white placeholder-tertiary text-text-color focus:outline-quaternary pr-10'}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <MagnifyingGlass size={24} className={'absolute right-2 top-1/2 transform -translate-y-1/2 text-white cursor-pointer'} />
+                        <MagnifyingGlass size={24} className={'absolute right-2 top-1/2 transform -translate-y-1/2 text-tertiary cursor-pointer'} />
                     </div>
                 </div>
                 <div className={'w-full flex justify-center mb-4 px-4'}>
