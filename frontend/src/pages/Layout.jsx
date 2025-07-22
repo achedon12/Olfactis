@@ -13,7 +13,7 @@ const Layout = () => {
 
     return (
         <>
-            <nav className="navbar bg-tertiary shadow-sm px-10">
+            <nav className="navbar bg-tertiary shadow-xl px-10">
                 <div className="flex-1">
                     <NavLink to="/" className="flex text-xl text-white hover items-center">
                         <img src="/olfactis.png" alt="logo" className="h-10 mr-2 fill-white"/>

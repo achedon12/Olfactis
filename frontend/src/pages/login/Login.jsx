@@ -36,7 +36,7 @@ const Login = () => {
             <img src={'/olfactis.svg'} alt={'logo'} className={'w-1/5 md:w-1/12 absolute right-10 top-5'}/>
             <div className={'w-full h-screen flex flex-col items-center justify-center bg-tertiary'}>
                 <h1 className={'text-white text-[3rem] my-4'}>OLFACTIS</h1>
-                <form onSubmit={handleSubmit} className={'bg-primary px-4 md:px-8 w-5/6 lg:w-1/4'}>
+                <form onSubmit={handleSubmit} className={'bg-primary fieldset border-base-300 rounded-box border p-4 w-5/6 lg:w-1/4 flex flex-col items-center'}>
                     <h2 className={'text-center mt-6 mb-8 text-xl'}>Bienvenue</h2>
                     {isRegister && (
                         <>
@@ -45,30 +45,30 @@ const Login = () => {
                                    value={firstname}
                                    onChange={(e) => setFirstname(e.target.value)}
                                    required
-                                   className={'w-full p-2 my-2 bg-input-color placeholder-white text-text-color focus:outline-quaternary'}
+                                   className='input'
                             />
                             <input type="text"
                                    placeholder="Nom"
                                    value={lastname}
                                    onChange={(e) => setLastname(e.target.value)}
                                    required
-                                   className={'w-full p-2 my-2 bg-input-color placeholder-white text-text-color focus:outline-quaternary'}
+                                   className='input'
                             />
                         </>
                     )}
-                    <input type="email"
+                    <input type="text"
                            placeholder="Email"
                            value={email}
                            onChange={(e) => setEmail(e.target.value)}
                            required
-                           className={'w-full p-2 my-2 bg-input-color placeholder-white text-text-color focus:outline-quaternary'}
+                           className='input'
                     />
                     <input type="password"
                            placeholder="Password"
                            value={password}
                            onChange={(e) => setPassword(e.target.value)}
                            required
-                           className={'w-full p-2 my-2 bg-input-color placeholder-white text-text-color focus:outline-quaternary'}
+                           className='input'
                     />
                     <div className={'flex justify-center items-center flex-col my-6'}>
                         <ActionButton type="submit">{isRegister ? 'S\'enregistrer' : 'Se connecter'}</ActionButton>

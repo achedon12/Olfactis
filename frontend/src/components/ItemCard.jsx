@@ -14,9 +14,14 @@ const ItemCard = ({item}) => {
     }
 
     return (
-        <div className="card bg-base-100 w-75 shadow-sm cursor-pointer hover:bg-base-200 transition ease-in duration-200" onClick={handleCardClick}>
+        <div
+            className="card bg-base-100 w-75 shadow-sm cursor-pointer hover:bg-base-200 transition ease-in duration-200"
+            onClick={handleCardClick}>
             <div className={"p-4"}>
-                <img src={`${config.baseUrl}` + item.picture} alt={item.name} className="w-full h-40 object-contain"/>
+                <figure className="bg-gray-100 rounded-lg overflow-hidden">
+                    <img src={`${config.baseUrl}` + item.picture} alt={item.name}
+                         className="w-full h-40 object-contain"/>
+                </figure>
             </div>
 
             <div className="card-body">

@@ -90,7 +90,7 @@ const Tabs = ({user, loans, loansReturned, bookings}) => {
     return (
         <div className="w-full h-full rounded-sm overflow-hidden p-6 bg-white">
             <div className="tabs tabs-lift">
-                <input type="radio" name="my_tabs_3" className="tab" aria-label="LoansHistory" defaultChecked/>
+                <input type="radio" name="my_tabs_3" className="tab" aria-label="Loans" defaultChecked/>
                 <div className="tab-content bg-base-100 border-base-300 p-6">
                     <div>
                         <h3 className="text-lg font-medium text-gray-900 mb-4">Your loans</h3>
@@ -103,14 +103,14 @@ const Tabs = ({user, loans, loansReturned, bookings}) => {
                                         <div className="flex items-center justify-between">
                                             <div>
                                                 <h4 className="font-medium text-gray-900">{loan.item.name}</h4>
-                                                <p className="text-sm text-gray-500 mb-5">{loan.item.category.name}</p>
+                                                <p className="badge badge-xs badge-warning">{loan.item.category.name}</p>
                                                 <p>Start date : {formatDate(loan.start_date)}</p>
                                                 <p>End date : {formatDate(loan.end_date)}</p>
                                             </div>
                                             <img src={`${config.baseUrl}` + loan.item.picture} alt={loan.item.name}
                                                  className="w-24 object-contain"/>
                                         </div>
-                                        <div className="mt-5 flex space-x-3">
+                                        <div className="mt-5 flex space-x-3 justify-end">
                                             <button className="btn btn-error" onClick={() => {
                                                 setLoanConfirmAction('return');
                                                 setLoanConfirmModalOpen(true);
@@ -143,7 +143,7 @@ const Tabs = ({user, loans, loansReturned, bookings}) => {
                                 {bookings.map((booking, index) => (
                                     <div key={booking.id || index} className="border border-gray-200 rounded-lg p-4">
                                         <h4 className="font-medium text-gray-900">{booking.item.name}</h4>
-                                        <p className="text-sm text-gray-500">{booking.item.category.name}</p>
+                                        <p className="badge badge-xs badge-warning">{booking.item.category.name}</p>
                                         <p>Start date : {formatDate(booking.start_date)}</p>
                                         <p>Fin : {formatDate(booking.end_date)}</p>
                                     </div>
@@ -164,7 +164,7 @@ const Tabs = ({user, loans, loansReturned, bookings}) => {
                                     <div key={loanReturned.id || index}
                                          className="border border-gray-200 rounded-lg p-4">
                                         <h4 className="font-medium text-gray-900">{loanReturned.item.name}</h4>
-                                        <p className="text-sm text-gray-500">{loanReturned.item.category.name}</p>
+                                        <span className="badge badge-xs badge-warning">{loanReturned.item.category.name}</span>
                                         <p>Returned on : {formatDate(loanReturned.returned_at)}</p>
                                         <p>Start date : {formatDate(loanReturned.start_date)}</p>
                                         <p>End date : {formatDate(loanReturned.end_date)}</p>
@@ -220,7 +220,7 @@ const LoanConfirmModal = ({action, onConfirm, onClose}) => {
                 <h2 className="text-lg font-medium mb-4">Confirm {action === 'return' ? 'Return' : 'Extension'}</h2>
                 <p>Are you sure you want to {action} this loan?</p>
                 <div className="modal-action">
-                    <button className="btn btn-error" onClick={() => onConfirm()}>
+                    <button className="btn btn-success" onClick={() => onConfirm()}>
                         Confirm
                     </button>
                     <button className="btn" onClick={() => onClose()}>

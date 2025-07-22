@@ -27,7 +27,7 @@ const sendMail = async (to, subject, templateFile, replacements, useTwig = false
             for (const key in replacements) {
                 html = html.replace(new RegExp(`{{${key}}}`, 'g'), replacements[key]);
             }
-            html = html.replace(/{{now}}/g, new Date().getFullYear());
+            html = html.replace(/{{now}}/g, new Date().getFullYear().toString());
         }
 
         const mailOptions = {

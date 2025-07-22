@@ -127,11 +127,12 @@ const ItemDetail = () => {
     };
 
     return (
-        <div className={'w-full h-[calc(100vh-5rem)]'}>
+        <div className={'w-full h-[calc(100vh-5rem)] mx-w-3xl'}>
             <div className={'hero bg-white'}>
-                <div className="hero-content flex-col lg:flex-row">
-                    <img src={`${config.baseUrl}`+item.picture} alt={item.name} className="max-h-[20rem] max-w-full object-cover" />
-                    <div>
+                <div className="hero-content flex-col lg:flex-row w-3xl">
+                    <img src={`${config.baseUrl}`+item.picture} alt={item.name}
+                         className="w-1/2 h-32 lg:h-64 object-contain rounded-lg bg-gray-100"/>
+                    <div className="card-body w-full lg:w-1/2">
                         <h1 className="text-2xl text-quaternary mb-2">{item.name}</h1>
                         <span className="badge badge-xs badge-warning mb-4">{item.category.name}</span>
                         <p className="mb-4">{item.description}</p>
@@ -148,7 +149,7 @@ const ItemDetail = () => {
             </div>
 
             {isAdmin && (
-                <div className="text-center pt-10">
+                <div className="text-center p-20">
                     <h1 className="text-2xl text-quaternary mb-4">Loans</h1>
                     {loans.length > 0 ? (
                             <table className="min-w-full mt-4 border-collapse">
