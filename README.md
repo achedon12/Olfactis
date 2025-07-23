@@ -27,3 +27,10 @@ Le front end de ce projet permet de mettre en avant toutes les données du labor
 
 - [Front](http://localhost:5173)
 - [Mailer](http://localhost:1030)
+
+  
+# Students :
+
+- [Mathys Farineau](https://github.com/IPandragonI)
+- [Léo Deroin](https://github.com/achedon12)
+- [Alan Sapet](https://github.com/KazSoda)
