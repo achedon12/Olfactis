@@ -44,7 +44,7 @@ const GenericTable = ({ fetchUrl, columns, rowActions }) => {
         try {
             const response = await fetch(`${fetchUrl}/${itemToDelete}`, {
                 method: 'DELETE',
-                headers: config.getHeaders()(),
+                headers: config.getHeaders(),
             });
             if (response.ok) {
                 setData(data.filter(item => item._id !== itemToDelete));

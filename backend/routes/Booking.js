@@ -62,8 +62,9 @@ router.post('/', verifyToken, async (req, res) => {
         });
         await booking.save();
         bookings = await Booking.find({item: booking.item}).populate('item');
-        res.json({bookings});
+        res.status(200).json({bookings});
     } catch (error) {
+        console.error(error);
         res.status(400).json({error: error});
     }
 });
