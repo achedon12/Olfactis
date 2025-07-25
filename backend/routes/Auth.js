@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
 
         await newUser.save();
 
-        res.status(201).json({ token, newUser, subscription, loans: [], bookings: [] });
+        res.status(201).json({ token, user: newUser, subscription, loans: [], bookings: [] });
 
         await sendMail(req.body.email, 'Account verification', 'registration.html', {token: newUser.verification_token, email: req.body.email, firstname: req.body.firstname, verification_link: process.env.APP_URL + '/api/auth/verify/' + newUser.verification_token});
     } catch (error) {

@@ -45,7 +45,7 @@ export const AuthProvider = ({children}) => {
 
     const handleStoreData = (data) => {
         localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.newUser));
+        localStorage.setItem('user', JSON.stringify(data.user));
         localStorage.setItem('bookings', JSON.stringify(data.bookings));
         localStorage.setItem('loans', JSON.stringify(data.loans));
         localStorage.setItem('loansReturned', JSON.stringify(data.loansReturned));

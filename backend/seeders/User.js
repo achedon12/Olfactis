@@ -16,6 +16,7 @@ const seedUsers = async () => {
         lastname: 'admin',
         email: 'admin@gmail.com',
         password: 'admin',
+        role: 'admin',
         // admin subscription where name = admin
         subscription: subscriptions.find(sub => sub.name === 'admin')._id,
         newsletter: true

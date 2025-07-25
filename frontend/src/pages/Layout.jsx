@@ -8,8 +8,9 @@ const Layout = () => {
     const handleLogout = () => {
         logout();
     };
+    console.log(localStorage.getItem('user'))
 
-    const userIsAdmin = JSON.parse(localStorage.getItem('user'))?.firstname === 'admin';
+    const userIsAdmin = JSON.parse(localStorage.getItem('user'))?.role === 'admin';
 
     return (
         <>
