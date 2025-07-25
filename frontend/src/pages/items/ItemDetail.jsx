@@ -56,9 +56,7 @@ const ItemDetail = () => {
     }
 
     const isAdmin = async () => {
-        const user = JSON.parse(localStorage.getItem('user'));
-        const role = user.subscription.name
-        return role === 'admin';
+        return JSON.parse(localStorage.getItem('user'))?.role === 'admin';
     }
 
     const handleGoBack = () => {
