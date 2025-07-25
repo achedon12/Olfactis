@@ -21,9 +21,11 @@ export const AuthProvider = ({children}) => {
             headers: config.getHeaders(),
             body: JSON.stringify({firstname, lastname, email, password})
         });
+        console.log('Register response:', response);
 
         if (response.ok) {
             const data = await response.json();
+            console.log('Register data:', data);
             handleStoreData(data);
         }
     }
@@ -43,7 +45,7 @@ export const AuthProvider = ({children}) => {
 
     const handleStoreData = (data) => {
         localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('user', JSON.stringify(data.newUser));
         localStorage.setItem('bookings', JSON.stringify(data.bookings));
         localStorage.setItem('loans', JSON.stringify(data.loans));
         localStorage.setItem('loansReturned', JSON.stringify(data.loansReturned));
