@@ -17,7 +17,6 @@ const seedUsers = async () => {
         email: 'admin@gmail.com',
         password: 'admin',
         role: 'admin',
-        // admin subscription where name = admin
         subscription: subscriptions.find(sub => sub.name === 'admin')._id,
         newsletter: true
     });
@@ -25,13 +24,12 @@ const seedUsers = async () => {
     adminUser.password = await bcrypt.hash('admin', 10);
     await adminUser.save();
 
-    // common user
+    // dev user
     const commonUser = new User({
         firstname: 'dev',
         lastname: 'dev',
         email: 'dev@gmail.com',
         password: 'dev',
-        // admin subscription where name = admin
         subscription: subscriptions.find(sub => sub.name === 'Premium')._id,
         newsletter: true
     });

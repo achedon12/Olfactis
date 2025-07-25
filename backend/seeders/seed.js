@@ -12,20 +12,21 @@ const seedItems = require('./Item');
 const seedStates = require('./State');
 const seedSubscriptions = require('./Subscription');
 const seedUsersSubscription = require('./UserSubscription');
+const seedLoan = require('./Loan');
 
 connectDB();
 
 const seedDatabase = async () => {
     try {
+        await Booking.deleteMany({});
+        await LoanReturned.deleteMany({});
         await seedCategories();
         await seedSubscriptions();
         await seedUsers();
         await seedUsersSubscription();
         await seedStates();
         await seedItems();
-        await Loan.deleteMany({});
-        await Booking.deleteMany({});
-        await LoanReturned.deleteMany({});
+        await seedLoan();
         console.log('Database seeded');
     } catch (error) {
         console.error('Error seeding database:', error);
