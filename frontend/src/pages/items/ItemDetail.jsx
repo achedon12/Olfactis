@@ -55,9 +55,7 @@ const ItemDetail = () => {
         return <Loader/>;
     }
 
-    const isAdmin = async () => {
-        return JSON.parse(localStorage.getItem('user'))?.role === 'admin';
-    }
+    const isAdmin = JSON.parse(localStorage.getItem('user'))?.role === 'admin' || false;
 
     const handleGoBack = () => {
         if (fromCatalog) {

@@ -4,6 +4,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 function ItemStats({ loans }) {
     const currentYear = new Date().getFullYear();
 
+    const isAdmin = JSON.parse(localStorage.getItem('user'))?.role === 'admin' || false;
+
     const loansPerMonth = Array(12).fill(0);
     loans
         .filter(loan => new Date(loan.start_date).getFullYear() === currentYear)
@@ -17,7 +19,7 @@ function ItemStats({ loans }) {
         total: value,
     }));
 
-    return (
+    return (isAdmin &&
         <div className="p-6">
             <h2 className="text-2xl mb-4">LoansHistory per month - {currentYear}</h2>
             <ResponsiveContainer width="100%" height={400}>
