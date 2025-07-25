@@ -29,6 +29,7 @@ const GenericTable = ({ fetchUrl, columns, rowActions }) => {
                     }
                 });
                 const result = await response.json();
+                console.log('Fetched data:', result);
                 setData(result);
             } catch (error) {
                 console.error('Failed to fetch data:', error);

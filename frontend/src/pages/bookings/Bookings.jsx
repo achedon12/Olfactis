@@ -11,8 +11,8 @@ const Bookings = () => {
     );
 
     const columns = [
-        { id: 'item', label: 'Item', accessor: (item) => item.item.name, minWidth: 150 },
-        { id: 'user', label: 'User', accessor: (item) => item.user.firstname + ' ' + item.user.lastname, minWidth: 150 },
+        { id: 'item', label: 'Item', accessor: (item) => item.item?.name || '', minWidth: 150 },
+        { id: 'user', label: 'User', accessor: (item) => item.user?.firstname + ' ' + item.user?.lastname || '', minWidth: 150 },
         { id: 'start_date', label: 'Start Date', accessor: (item) => new Date(item.start_date).toLocaleDateString(), minWidth: 120 },
         { id: 'end_date', label: 'End Date', accessor: (item) => new Date(item.end_date).toLocaleDateString(), minWidth: 120 },
         { id: 'created_at', label: 'Created At', accessor: (item) => new Date(item.created_at).toLocaleDateString(), minWidth: 120 },
